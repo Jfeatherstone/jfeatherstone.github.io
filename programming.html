@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Jack Featherstone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" href="./favicon.png" type="image/x-icon">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-light-blue w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Physics</a>
+    <a href="./programming.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Programming</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">#SketchYourScience</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">More Stuff</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Physics</a>
+    <a href="./programming.html" class="w3-bar-item w3-button w3-padding-large">Programming</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">#SketchYourScience</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">More Stuff</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
+  <p class="w3-xlarge">Howdy! I'm</p>
+  <h1 class="w3-margin w3-jumbo">Making Cool Programs<h1>
+  <p class="w3-xlarge"></p>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+        <h1>Experience</h1>
+        <h5 class="w3-padding-16">I've been programming in various languages for about 5 years now, during which I've worked on a pretty wide range of projects. I began with Java, after which I transitioned to C++, finally coming to work mostly in Python and Matlab these days. That being said, I am comfortable using any of the following languages:</h5>
+
+        <div class="w3-center">  
+            <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/misc/programming_languages.png" width=600px>
+        </div>
+  </div>
+</div>
+<!-- Project section header -->
+<div class="w3-row w3-container w3-padding-32">
+    <div class="w3-content"> 
+        <h1 class="w3-padding-32">Curated Projects by Topic</h1>
+    </div>
+</div>
+
+<!-- First row of projects -->
+<div class="w3-row w3-container w3-padding-32 w3-white">
+    <div class="w3-content"> 
+
+        <div class="w3-third">
+            <h2>Physics</h2>
+            <p>Excluding projects that are directly tied to my active research, I still enjoy working on physics-related simulations and methods!</p>
+        </div>
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/SFMLCollision">
+            <div class="w3-card w3-light-gray" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/physics/collision.png" alt="Collision" style="width:80%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/SFMLCollision">Physics Engine</a></h3>
+                    <p>This lightweight physics engine implements automatic generation of collision boxes from sprites, specifically designed for game development. The detection of intersections of polygons of arbitrary concavity is done efficiently, including built-in ways to approximate shapes to boost performance.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/VariationalSolver">
+            <div class="w3-card w3-light-gray" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/physics/atom_wavefunction.png" alt="Collision" style="width:60%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/VariationalSolver">Variational Solver</a></h3>
+                    <p>This small script allows you to calculate the approximate ground state energy of a Hamiltonian given a wavefunctional form inputted as a symbolic expression from sympy.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Second row of projects -->
+<div class="w3-row w3-container w3-padding-32 w3-light-gray">
+    <div class="w3-content"> 
+
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/ColorScreen">
+            <div class="w3-card w3-white" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/misc/color_screen.png" alt="Collision" style="width:80%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/ColorScreen">ColorScreen</a></h3>
+                    <p>This app simulates arbitrary regions of your screen as someone with various types of colorblindness would see it. This can be used to check presentations, scientific figures, etc. to make sure they are legible to everyone!</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/jTodo">
+            <div class="w3-card w3-white" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/misc/jTodo.png" alt="Collision" style="width:90%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/jTodo">jTodo</a></h3>
+                    <p>This is a simple CLI-based todo list made in Java that I continuously add features to as I find I personally need them. It currently supports different coloring schemes (including a compatability mode), task grouping, and fun messages upon completing a task!</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="w3-third">
+            <h2>Useful Things</h2>
+            <p>One of the main reasons that I program so much is to create applications for my own personal use (and if others can use them too, all the better)!</p>
+        </div>
+
+    </div>
+</div>
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
+    <div class="w3-content">
+        <p><a href="mailto:jdfeathe@ncsu.edu">Contact me</a></p>
+        <p><a href="https://github.com/jfeatherstone/jfeatherstone.github.io" target="_blank">Website Source Code</a></p>
+    </div>
+</div>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>
+
