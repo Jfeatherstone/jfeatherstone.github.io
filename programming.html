@@ -17,20 +17,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-light-blue w3-card w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-light-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Physics</a>
+    <a href="./physics.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Physics</a>
     <a href="./programming.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Programming</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">#SketchYourScience</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">More Stuff</a>
+    <a href="./sketchyourscience.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">#SketchYourScience</a>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">Physics</a>
+    <a href="./physics.html" class="w3-bar-item w3-button w3-padding-large">Physics</a>
     <a href="./programming.html" class="w3-bar-item w3-button w3-padding-large">Programming</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">#SketchYourScience</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large">More Stuff</a>
+    <a href="./sketchyourscience.html" class="w3-bar-item w3-button w3-padding-large">#SketchYourScience</a>
   </div>
 </div>
 
@@ -52,6 +50,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         </div>
   </div>
 </div>
+
 <!-- Project section header -->
 <div class="w3-row w3-container w3-padding-32">
     <div class="w3-content"> 
@@ -100,7 +99,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </div>
 
 <!-- Second row of projects -->
-<div class="w3-row w3-container w3-padding-32 w3-light-gray">
+<div class="w3-row w3-container w3-padding-32 w3-light-gray w3-cell-middle">
     <div class="w3-content"> 
 
 
@@ -132,13 +131,54 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             </a>
         </div>
 
-        <div class="w3-third">
+        <div class="w3-third w3-center">
             <h2>Useful Things</h2>
             <p>One of the main reasons that I program so much is to create applications for my own personal use (and if others can use them too, all the better)!</p>
         </div>
 
     </div>
 </div>
+
+<!-- Third row of projects -->
+<div class="w3-row w3-container w3-padding-32 w3-white">
+    <div class="w3-content"> 
+
+        <div class="w3-third">
+            <h2>Fun Stuff</h2>
+            <p>Not-too-serious that I made as a way to learn a language, or just because I was bored!</p>
+        </div>
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/GameOff2018">
+            <div class="w3-card w3-light-gray" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/games/platformer1-1.png" alt="Collision" style="width:60%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/GameOff2018">Github Game Off 2018</a></h3>
+                    <p>This is a platformer video game I made from scratch for the annual game jam hosted by Github in 2018. The goal is to create a full game in only a month, which I was able to do -- though it's good thing they didn't specify you had to make a <i>good</i> game...</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="w3-third">
+            <a href="https://github.com/Jfeatherstone/FalloutHackingGame">
+            <div class="w3-card w3-light-gray" style=width:95%>
+                <div class="w3-center w3-padding-16">
+                    <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/tech/terminal.png" alt="Collision" style="width:60%">
+                </div>
+                <div class="w3-container">
+                    <h3><a href="https://github.com/Jfeatherstone/FalloutHackingGame">Hacking Minigame</a></h3>
+                    <p>This is my recreation of the hacking minigame that appears in most Fallout games, where you have to select the correct word from a list given how many characters it has in common with the others.</p>
+                </div>
+            </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
     <div class="w3-content">
         <p><a href="mailto:jdfeathe@ncsu.edu">Contact me</a></p>

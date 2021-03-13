@@ -20,8 +20,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-light-blue w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-light-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-    <a href="./physics.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Physics</a>
+    <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
+    <a href="./physics.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Physics</a>
     <a href="./programming.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Programming</a>
     <a href="./sketchyourscience.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">#SketchYourScience</a>
   </div>
@@ -37,8 +37,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Header -->
 <header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
   <p class="w3-xlarge">Howdy! I'm</p>
-  <h1 class="w3-margin w3-jumbo">Jack Featherstone<h1>
-  <p class="w3-xlarge">Physicist - Programmer</p>
+  <h1 class="w3-margin w3-jumbo">Doing Physics Research<h1>
 </header>
 
 <!-- First Grid -->
@@ -48,7 +47,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <h1>Physics</h1>
       <h5 class="w3-padding-16">I am an undergraduate student studying physics at North Carolina State University. I am primarily involved in <a href="https://danielslab.physics.ncsu.edu/">Karen Daniels's lab</a> investigating granular physics and soft matter, though I have also recently started working with <a href="https://physics.sciences.ncsu.edu/people/vskokov/">Vladimir Skokov</a> on color glass condensate simulations.</h5>
 
-      <h4 class="w3-text-gray"><a href="./physics.html">More info</a></h4>
+      <h4 class="w3-text-gray">More info</h4>
     </div>
 
     <div class="w3-third w3-center">
@@ -57,38 +56,38 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   </div>
 </div>
 
-<!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/tech/lcd_display.gif" width=300px>
+<!-- Tabs -->
+<div class="w3-border">
+<div class="w3-row-padding w3-container w3-center">
+    <div class="w3-bar w3-theme">
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'EMPANADA')">Granular Materials in Space</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'CGC')">Color Glass Condensates</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'MLGrains')">Predicting Granular Failure</button>
+        </div>
     </div>
-
-    <div class="w3-twothird">
-      <h1>Programming</h1>
-
-      <h5 class="w3-padding-16">On top of my work as a physicist, I often work on side projects creating useful applications like a todo list, color blindness simulator, and quantum variational solver. These projects span several languages, including Python, C++, Java, Go, and Matlab, and I've also written a few tutorials on how to make specific programs. </h5>
-
-      <h4 class="w3-text-gray"><a href="./programming.html">More info</a></h4>
-    </div>
-  </div>
 </div>
 
-<!-- Third Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>#SketchYourScience</h1>
-  
-      <h5 class="w3-padding-16">Per <a href="https://blogs.agu.org/sciencecommunication/2020/12/02/how-to-sketch-your-science/">#SketchYourScience</a> (specifically, Irene Crisologo) I also draw sketches of various scientific concepts and other fun things to include in my research presentations, display on this site, or do whatever else with!</h5>
+<div id="EMPANADA" class="w3-container w3-row-padding w3-padding tab w3-animate-opacity">
+    <div class="w3-content w3-center">
+        <h1 class="w3-center">Probing Granular Materials on Asteroids</h1>
 
-      <h4 class="w3-text-gray"><a href="./sketchyourscience.html">More info</a></h4>
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/space/little_prince_asteroid.png" width=400px>
     </div>
+</div>
 
-    <div class="w3-third w3-center">
-        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/misc/sketch_your_science.png" width=300px>
-    </div>
-  </div>
+<div id="CGC" class="w3-container w3-row-padding -w3-padding tab w3-animate-opacity">
+    <h2>Color Glass Condensates</h2>
+</div>
+
+<div id="MLGrains" class="w3-container tab w3-animate-opacity">
+    <h2>Predicting Granular Failure</h2>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
@@ -109,6 +108,23 @@ function myFunction() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+// Tabs
+function openTab(evt, tabName) {
+  var i;
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  var activebtn = document.getElementsByClassName("testbtn");
+  for (i = 0; i < x.length; i++) {
+    activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " w3-dark-grey";
+}
+
+openTab(event, 'EMPANADA')
 </script>
 
 </body>
