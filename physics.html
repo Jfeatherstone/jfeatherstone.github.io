@@ -37,7 +37,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Header -->
 <header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
   <p class="w3-xlarge">Howdy! I'm</p>
-  <h1 class="w3-margin w3-jumbo">Doing Physics Research<h1>
+  <h1 class="w3-margin w3-jumbo">A Physicist<h1>
 </header>
 
 <!-- First Grid -->
@@ -45,9 +45,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   <div class="w3-content">
     <div class="w3-twothird">
       <h1>Physics</h1>
-      <h5 class="w3-padding-16">I am an undergraduate student studying physics at North Carolina State University. I am primarily involved in <a href="https://danielslab.physics.ncsu.edu/">Karen Daniels's lab</a> investigating granular physics and soft matter, though I have also recently started working with <a href="https://physics.sciences.ncsu.edu/people/vskokov/">Vladimir Skokov</a> on color glass condensate simulations.</h5>
+      <h5 class="w3-padding-16">I am primarily involved in <a href="https://danielslab.physics.ncsu.edu/">Karen Daniels's lab</a> investigating granular physics and soft matter, though I have also recently started working with <a href="https://physics.sciences.ncsu.edu/people/vskokov/">Vladimir Skokov</a> on color glass condensate simulations.</h5>
 
-      <h4 class="w3-text-gray">More info</h4>
+        <h5 class="w3-padding-16">Check out some of the projects I am working on below!</h5>
+
     </div>
 
     <div class="w3-third w3-center">
@@ -59,35 +60,72 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Tabs -->
 <div class="w3-border">
 <div class="w3-row-padding w3-container w3-center">
-    <div class="w3-bar w3-theme">
+    <div class="w3-bar w3-theme w3-center">
         <div class="w3-third">
-            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'EMPANADA')">Granular Materials in Space</button>
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-dark-grey" onclick="openTab(event,'EMPANADA')">Granular Materials in Space</button>
         </div>
 
         <div class="w3-third">
-            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'CGC')">Color Glass Condensates</button>
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large" onclick="openTab(event,'CGC')">Color Glass Condensate Simulations</button>
         </div>
 
         <div class="w3-third">
-            <button class="w3-bar-item w3-button testbtn w3-padding-32 w3-large" onclick="openTab(event,'MLGrains')">Predicting Granular Failure</button>
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large" onclick="openTab(event,'MLGrains')">Predicting Granular Failure</button>
         </div>
     </div>
 </div>
 
-<div id="EMPANADA" class="w3-container w3-row-padding w3-padding tab w3-animate-opacity">
-    <div class="w3-content w3-center">
+<div id="EMPANADA" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">Probing Granular Materials on Asteroids</h1>
 
         <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/space/little_prince_asteroid.png" width=400px>
+
+        <p>When we think of asteroids in space, we often think of them as big boulders, or composite objects, flying through space (possibly with baobabs growing on them).</p>
+
+        <p> In reality, a large number of these astronomical objects are actually very weakly bound collections of heterogeneous granular materials, since the gravity holding them together can be 4-5 orders of magnitude less than on what we experience on Earth.</p>
+
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/space/grainy_asteroid.png" width=400px>
+
+        <p>Two recent missions have gone to investigate asteroids that fit this description: JAXA's Hayabusa2 mission to Ryugu and NASA's OSIRIS-REx mission to Bennu.</p>
+
+        <p>Our goal with this project is to develop optimized procedures for working in these exotic environments with the paradigm of a flexible probe. That is, how should we go about inserting a flexible intruder into these surfaces without causing a large amount of regolith to be ejected?</p>
+
+        <p>To investigate this, we simulate these systems in a laboratory environment using photoelastic techniques, which clue us into what is happening on the individual grain scale.</p>
+
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=400px>
+
+        <p>Want more information (including quantitative results)? Check out our <a href="https://arxiv.org/abs/2011.12890">preprint on arXiv</a>!</p>
+
     </div>
 </div>
 
 <div id="CGC" class="w3-container w3-row-padding -w3-padding tab w3-animate-opacity">
-    <h2>Color Glass Condensates</h2>
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">Color Class Condensate Simulations</h1>
+
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/physics/cgc_collision.png" width=500px>
+
+        <h3>Still working on this page, check back later!</h3>
+
+        <p>
+    </div>
 </div>
 
 <div id="MLGrains" class="w3-container tab w3-animate-opacity">
-    <h2>Predicting Granular Failure</h2>
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">Predicting Granular Failure and Network Analysis</h1>
+
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/squeezing_particles.png" width=600px>
+
+        <p>A topic of great interest to many different communities, including both granular physicists and geophysicists, is understanding how and when a composite material will "fail". That is, when will there be significant rearrangements on the grain scale that could potentially have a significant effect on the bulk properties of the material?</p>
+
+        <p>These failures could look like landslides, stick-slip dynamics, or a whole lot of other things!</p>
+
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/landslide.png" width=400px>
+
+        <p>My work specifically investigates if these failures can be predicted in a laboratory system of photoelastic particles using only metrics relating to the interparticle forces.</p>
+    </div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
@@ -124,7 +162,16 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " w3-dark-grey";
 }
 
-openTab(event, 'EMPANADA')
+// Startup
+function startup(startTab) {
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  document.getElementById(startTab).style.display = "block";
+}
+
+startup("EMPANADA");
 </script>
 
 </body>
