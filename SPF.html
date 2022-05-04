@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Friction and Failure on the Single Particle Scale</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" href="./favicon.png" type="image/x-icon">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+
+.w3-third {display: flex; align-items: center; justify-content: center; padding: 10px}
+
+li:not(:last-child) {margin-bottom: 4%;}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-light-blue w3-card w3-left-align w3-large">
+    <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
+  </div>
+
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
+  <p class="w3-xlarge">Howdy! I'm investigating</p>
+  <h1 class="w3-margin w3-jumbo">Friction and Failure<h1>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Motivation</h1>
+      <h5 class="w3-padding-16">This page is still a work-in-progress, check back later for more information!</h5>
+
+    </div>
+
+    <div class="w3-third w3-center">
+        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=300px>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="w3-row-padding w3-container w3-center">
+    <div class="w3-bar w3-theme w3-center">
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-dark-grey" onclick="openTab(event,'experiment')">The Experiment</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'analysis')">The Analysis</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'results')">The Results</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'discussion')">Beyond The Results</button>
+        </div>
+    </div>
+</div>
+
+<div id="experiment" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">The Experiment</h1>
+
+        <p>WIP!</p>
+    </div>
+</div>
+
+<div id="analysis" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">The Analysis</h1>
+
+        <p>WIP!</p>
+    </div>
+</div>
+
+<div id="results" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">The Results</h1>
+
+        <p>WIP!</p>
+    </div>
+</div>
+
+<div id="discussion" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">Beyond The Results</h1>
+
+        <p>WIP!</p>
+    </div>
+</div>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
+    <div class="w3-content">
+        <p><a href="mailto:jdfeathe@ncsu.edu">Contact me</a></p>
+        <p><a href="https://github.com/jfeatherstone/jfeatherstone.github.io" target="_blank">Website Source Code</a></p>
+    </div>
+</div>
+
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Tabs
+function openTab(evt, tabName) {
+  var i;
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  var activebtn = document.getElementsByClassName("testbtn");
+  for (i = 0; i < x.length; i++) {
+    activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", " w3-light-gray");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " w3-dark-grey";
+}
+
+// Startup
+function startup(startTab) {
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  document.getElementById(startTab).style.display = "block";
+}
+
+startup("experiment");
+</script>
+
+</body>
+</html>
+
