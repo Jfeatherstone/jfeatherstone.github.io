@@ -16,6 +16,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 li:not(:last-child) {margin-bottom: 4%;}
 </style>
+
 <body>
 
 <!-- Navbar -->
@@ -28,22 +29,47 @@ li:not(:last-child) {margin-bottom: 4%;}
 
 <!-- Header -->
 <header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
-  <p class="w3-xlarge">Howdy! I'm investigating</p>
+  <p class="w3-xlarge">Howdy! We're investigating</p>
   <h1 class="w3-margin w3-jumbo">Friction and Failure<h1>
 </header>
 
-<!-- First Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>Motivation</h1>
-      <h5 class="w3-padding-16">This page is still a work-in-progress, check back later for more information!</h5>
+<div class="w3-row-padding w3-container">
+  <div class="w3-content w3-center">
+      <h5 class="w3-padding-8">Jack Featherstone and Karen Daniels</h5>
+      <h5 class="w3-padding-8">Department of Physics, NC State University</h5>
+      <h5 class="w3-padding-16">Triangle Soft Matter Workshop 2022, Duke University</h5>
+  </div>
+</div>
 
+<h5 class="w3-padding-8 w3-center"><b>This page is still a work-in-progress, check back later for more information!</b></h5>
+
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content w3-large">
+    <h1>Motivation</h1>
+
+    <p class="w3-padding-16" style="text-indent: 40px">Granular materials comprise a large group of systems that are made of lots of individual, athermal grains. Their dynamics are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
+
+    <div class="w3-content w3-center" style="max-width: 400px">
+        <img src="images/squeezing_particles_0.png" width=80% height=auto>
     </div>
 
-    <div class="w3-third w3-center">
-        <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=300px>
+    <p class="w3-padding-16" style="text-indent: 40px">Even though the influence of friction extends far beyond granular materials, we still have yet to put forth a complete description of its mechanism -- or mechanisms. Such an understanding would be fantastically important in both academic and industrial contexts, especially when it comes to understanding frictional failure.</p>
+
+    <div class="w3-content w3-center" style="max-width: 400px">
+        <img src="images/squeezing_particles_1.png" width=80% height=auto>
     </div>
+
+    <p class="w3-padding-16" style="text-indent: 40px">The simplest, and most widely known, model of friction is the one-parameter Coulomb law<sup>1</sup>: when the ratio of tangential to normal force acting at a contact exceeds a certain value, the contact yields, or fails.</p>
+
+    <p class="w3-padding-16" style="text-indent: 40px">While this simple model generally works when you zoom out (literally or metaphorically) on a system, there are other types of friction that are only captured by more complex models. For example, when objects have rotational freedom, we have to think about rolling friction<sup>2</sup>, and if we don't restrict ourselve to solid systems, we must consider fluid friction<sup>3</sup>.</p>
+
+    <p class="w3-padding-16" style="text-indent: 40px">Our work looks to shed some light on the difference between sliding and rolling friction in a granular system, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
+
+    <div class="w3-content w3-center" style="max-width: 500px">
+        <img src="images/macro_system.png" width=80% height=auto>
+    </div>
+
+    <p class="w3-padding-16 w3-center">Click any of the sections below to explore our research!</p>
   </div>
 </div>
 
@@ -69,10 +95,35 @@ li:not(:last-child) {margin-bottom: 4%;}
 </div>
 
 <div id="experiment" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
-    <div class="w3-content w3-center w3-large">
+    <div class="w3-content w3-large">
         <h1 class="w3-center">The Experiment</h1>
 
-        <p>WIP!</p>
+        <p style="text-indent: 40px">In our 2D system, photoelastic disks are driven through a constrictive gap of set width, during which we observe the build up and release of stress on the particles.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/channel_exp.png" width=90% height=auto>
+        </div>
+
+        <p style="text-indent: 40px">This experiment sits on an air table, which minimizes the effects of basal friction by floating the particles just above the bottom panel.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/air_table.png" width=95% height=auto>
+        </div>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/full_exp.png" width=95% height=auto>
+        </div>
+
+        <p style="text-indent: 40px">We make measurements of the interparticle forces using the photoelastic response of the particles<sup>4</sup>: these materials have stress-dependent optical properties, leading to areas with higher forces appearing brighter.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 400px">
+            <img src="images/pe_response.png" width=80% height=auto>
+        </div>
+
+        <p style="text-indent: 40px">We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities throughout the rearrangement event.</p> 
+
+        <p class="w3-center w3-padding-16">For more information about all of these methods, check out "The Analysis".</p>
+
     </div>
 </div>
 
@@ -98,6 +149,20 @@ li:not(:last-child) {margin-bottom: 4%;}
 
         <p>WIP!</p>
     </div>
+</div>
+
+<div class="w3-row-padding w3-container">
+  <div class="w3-content w3-center">
+      <h1 class="w3-right-align">References</h1>
+
+      <ol class="w3-left-align">
+        <li>Coulomb, C. A. (1785). l'Académie des sciences pour l'année 1781. De l'Imprimerie Royale.</li>
+        <li><a href="https://doi.org/10.1103/PhysRevE.102.032903">Santos, A. P. et al. (2020). Granular packings with sliding, rolling, and twisting friction. Physical Review E, 102(3), 032903.</a></li>
+        <li><a href="https://doi.org/10.1103/PhysRevFluids.5.110516">Juanes, R. et al. (2020). Multiphase flow and granular mechanics. Physical Review Fluids, 5(11), 110516.</a></li>
+        <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a>
+      </ol>
+
+  </div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
