@@ -14,7 +14,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 .w3-third {display: flex; align-items: center; justify-content: center; padding: 10px}
 
-li:not(:last-child) {margin-bottom: 4%;}
+li:not(:last-child) {margin-bottom: 2%;}
 </style>
 
 <body>
@@ -44,7 +44,7 @@ li:not(:last-child) {margin-bottom: 4%;}
 <h5 class="w3-padding-8 w3-center"><b>This page is still a work-in-progress, check back later for more information!</b></h5>
 
 <div class="w3-row-padding w3-padding-32 w3-container">
-  <div class="w3-content w3-large">
+  <div class="w3-content w3-large w3-center">
     <h1>Motivation</h1>
 
     <p class="w3-padding-16" style="text-indent: 40px">Granular materials comprise a large group of systems that are made of lots of individual, athermal grains. Their dynamics are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
@@ -53,17 +53,17 @@ li:not(:last-child) {margin-bottom: 4%;}
         <img src="images/squeezing_particles_0.png" width=80% height=auto>
     </div>
 
-    <p class="w3-padding-16" style="text-indent: 40px">Even though the influence of friction extends far beyond granular materials, we still have yet to put forth a complete description of its mechanism -- or mechanisms. Such an understanding would be fantastically important in both academic and industrial contexts, especially when it comes to understanding frictional failure.</p>
+    <p class="w3-padding-16">Even though the influence of friction extends far beyond granular materials, we still have yet to put forth a complete description of its mechanism -- or mechanisms. Such an understanding would be fantastically important in both academic and industrial contexts, especially when it comes to understanding frictional failure.</p>
 
     <div class="w3-content w3-center" style="max-width: 400px">
         <img src="images/squeezing_particles_1.png" width=80% height=auto>
     </div>
 
-    <p class="w3-padding-16" style="text-indent: 40px">The simplest, and most widely known, model of friction is the one-parameter Coulomb law<sup>1</sup>: when the ratio of tangential to normal force acting at a contact exceeds a certain value, the contact yields, or fails.</p>
+    <p class="w3-padding-16">The simplest, and most widely known, model of friction is the one-parameter Coulomb law<sup>1</sup>: when the ratio of tangential to normal force acting at a contact exceeds a certain value, the contact yields, or fails.</p>
 
-    <p class="w3-padding-16" style="text-indent: 40px">While this simple model generally works when you zoom out (literally or metaphorically) on a system, there are other types of friction that are only captured by more complex models. For example, when objects have rotational freedom, we have to think about rolling friction<sup>2</sup>, and if we don't restrict ourselve to solid systems, we must consider fluid friction<sup>3</sup>.</p>
+    <p class="w3-padding-16">While this simple model generally works when you zoom out (literally or metaphorically) on a system, there are other types of friction that are only captured by more complex models. For example, when objects have rotational freedom, we have to think about rolling friction<sup>2</sup>, and if we don't restrict ourselves to solid systems, we must consider fluid friction<sup>3</sup>.</p>
 
-    <p class="w3-padding-16" style="text-indent: 40px">Our work looks to shed some light on the difference between sliding and rolling friction in a granular system, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
+    <p class="w3-padding-16">Our work looks to shed some light on the difference between sliding and rolling friction in a granular system, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
 
     <div class="w3-content w3-center" style="max-width: 500px">
         <img src="images/macro_system.png" width=80% height=auto>
@@ -95,16 +95,16 @@ li:not(:last-child) {margin-bottom: 4%;}
 </div>
 
 <div id="experiment" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
-    <div class="w3-content w3-large">
+    <div class="w3-content w3-large w3-center">
         <h1 class="w3-center">The Experiment</h1>
 
-        <p style="text-indent: 40px">In our 2D system, photoelastic disks are driven through a constrictive gap of set width, during which we observe the build up and release of stress on the particles.</p>
+        <p>In our 2D system, photoelastic disks are driven through a constrictive gap of set width, during which we observe the build up and release of stress on the particles.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/channel_exp.png" width=90% height=auto>
         </div>
 
-        <p style="text-indent: 40px">This experiment sits on an air table, which minimizes the effects of basal friction by floating the particles just above the bottom panel.</p>
+        <p>This experiment sits on an air table, which minimizes the effects of basal friction by floating the particles just above the bottom panel.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/air_table.png" width=95% height=auto>
@@ -114,13 +114,13 @@ li:not(:last-child) {margin-bottom: 4%;}
             <img src="images/full_exp.png" width=95% height=auto>
         </div>
 
-        <p style="text-indent: 40px">We make measurements of the interparticle forces using the photoelastic response of the particles<sup>4</sup>: these materials have stress-dependent optical properties, leading to areas with higher forces appearing brighter.</p>
+        <p>We make measurements of the interparticle forces using the photoelastic response of the particles<sup>4</sup>: these materials have stress-dependent optical properties, leading to areas with higher forces appearing brighter.</p>
 
-        <div class="w3-content w3-center w3-padding-16" style="max-width: 400px">
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/pe_response.png" width=80% height=auto>
         </div>
 
-        <p style="text-indent: 40px">We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities throughout the rearrangement event.</p> 
+        <p>We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities throughout the rearrangement event.</p> 
 
         <p class="w3-center w3-padding-16">For more information about all of these methods, check out "The Analysis".</p>
 
@@ -131,7 +131,58 @@ li:not(:last-child) {margin-bottom: 4%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">The Analysis</h1>
 
-        <p>WIP!</p>
+        <p>When describing our granular system, there are three fundamental things we want to know:</p>
+
+        <ol>
+            <li>How are the particles moving?</li>
+            <li>How are the particles rotating?</li>
+            <li>What forces are acting on the particles?</li>
+        </ol>
+
+        <p>We can source all three of these descriptors from images taken of our system; we'll go through how we understand and quantify each one in the sections below!</p>
+
+        <h3 class="w3-left-align w3-padding-16">Linear Motion</h3>
+
+        <p>To understand how a particle is moving, we need to know where the particle is located at any given time. We choose our particles to be circles (or rather, disks) which makes it very easy to track their centers as the system evolves.</p>
+
+        <p>We use a convolutional tracking technique<sup>5</sup>, which quantifies how likely it is that a circle is centered at each point. This works extraordinarily well, no doubt in part due to the fact that we use very high resolution images, to the point that we can track the particles even to sub-pixel accuracy!</p>
+
+
+        <h3 class="w3-left-align w3-padding-16">Rotational Motion</h3>
+
+        <p>Tracking the rotational motion of particles is a little harder than linear motion, since our particles are circularly symmetric. To track rotations, we need some artifact of the particles that does <b>not</b> have rotational symmetry, a candidate for which is not immediately obvious, at least to the human eye.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/angular_conv_cropped.png" width=95% height=auto>
+        </div>
+
+        <p>The solution here lies in something that might otherwise be considered noise in the images: the speckle pattern on the bottom of each particle. This pattern, an artifact of the method by which the particles are created, is not only unique, but anisotropic.</p>
+
+        <p>We can identify the relative rotation between any two frames by rotating one image until the two speckle patterns line up with each other. You might expect that this would be a rather weak signal, scarcely better than the minor differences in lighting across the system, but in fact it is so strong we can easily track the rotional motion of all of our particles!</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/angular_conv_test.png" width=100% height=auto>
+        </div>
+
+
+        <h3 class="w3-left-align w3-padding-16">Contact Forces</h3>
+
+        <p>Lastly, we would like to know what forces are acting on each particle, so we can differentiate normal from tangential components, calculate coefficients of friction from the Coulomb model, and identify when and where we should look for slips.</p>
+
+        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>6</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/pe_response.png" width=90% height=auto>
+        </div>
+       
+        <p>The hard part comes from turning these images into force magnitudes, positions, and contact angles, which we need to make any quantitative observations. We build on previous methods<sup>4</sup> that make use of an analytic description of these photoelastic responses and non-linear optimization techniques to achieve this. In particular, our developments make the technique much more sensitive to small tangential forces, which can otherwise be very difficult to detect in the shadows of the larger, normal components.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/synthetic.gif" width=90% height=auto>
+        </div>
+
+        <p>All of the computational specifics of these methods can be found in the <a href="http://jfeatherstone.xyz/pepe/pepe">documentation</a> for the open-source package.</p>
+
     </div>
 </div>
 
@@ -159,7 +210,10 @@ li:not(:last-child) {margin-bottom: 4%;}
         <li>Coulomb, C. A. (1785). l'Académie des sciences pour l'année 1781. De l'Imprimerie Royale.</li>
         <li><a href="https://doi.org/10.1103/PhysRevE.102.032903">Santos, A. P. et al. (2020). Granular packings with sliding, rolling, and twisting friction. Physical Review E, 102(3), 032903.</a></li>
         <li><a href="https://doi.org/10.1103/PhysRevFluids.5.110516">Juanes, R. et al. (2020). Multiphase flow and granular mechanics. Physical Review Fluids, 5(11), 110516.</a></li>
-        <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a>
+        <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a></li>
+        <li>Shattuck (2015). Handbook of Granular Materials. CRC Press</li>
+        <li><a href="https://doi.org/10.1007/s10035-019-0942-2">Abed Zadeh et al. (2019). Enlightening force chains: A review of photoelasticimetry in granular matter. Granular Matter, 21(4), 83.</a></li>
+
       </ol>
 
   </div>
