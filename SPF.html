@@ -41,13 +41,11 @@ li:not(:last-child) {margin-bottom: 2%;}
   </div>
 </div>
 
-<h5 class="w3-padding-8 w3-center"><b>This page is still a work-in-progress, check back later for more information!</b></h5>
-
 <div class="w3-row-padding w3-padding-32 w3-container">
   <div class="w3-content w3-large w3-center">
     <h1>Motivation</h1>
 
-    <p class="w3-padding-16" style="text-indent: 40px">Granular materials comprise a large group of systems that are made of lots of individual, athermal grains. Their dynamics are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
+    <p class="w3-padding-16">Granular materials comprise a large group of systems that are made of lots of individual, athermal grains. Their dynamics are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
 
     <div class="w3-content w3-center" style="max-width: 400px">
         <img src="images/squeezing_particles_0.png" width=80% height=auto>
@@ -152,24 +150,31 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <p>Tracking the rotational motion of particles is a little harder than linear motion, since our particles are circularly symmetric. To track rotations, we need some artifact of the particles that does <b>not</b> have rotational symmetry, a candidate for which is not immediately obvious, at least to the human eye.</p>
 
+        <p>Do you see anything below that differs between the images of the same particle at two different times?</p>
+
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/angular_conv_cropped.png" width=95% height=auto>
         </div>
 
         <p>The solution here lies in something that might otherwise be considered noise in the images: the speckle pattern on the bottom of each particle. This pattern, an artifact of the method by which the particles are created, is not only unique, but anisotropic.</p>
 
-        <p>We can identify the relative rotation between any two frames by rotating one image until the two speckle patterns line up with each other. You might expect that this would be a rather weak signal, scarcely better than the minor differences in lighting across the system, but in fact it is so strong we can easily track the rotional motion of all of our particles!</p>
+        <p>We can identify the relative rotation between any two frames by rotating one image until the two speckle patterns line up with each other. You might expect that this would be a rather weak signal, scarcely better than the minor differences in lighting across the system, but in fact it is so strong we can easily track the rotational motion of all of our particles!</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/angular_conv_test.png" width=100% height=auto>
         </div>
 
+        <p>The movie below demonstrates the results of this rotational tracking, overlaid on the raw images.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/particle_orientation.gif" width=90% height=auto>
+        </div>
 
         <h3 class="w3-left-align w3-padding-16">Contact Forces</h3>
 
         <p>Lastly, we would like to know what forces are acting on each particle, so we can differentiate normal from tangential components, calculate coefficients of friction from the Coulomb model, and identify when and where we should look for slips.</p>
 
-        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>6</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
+        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>4,6</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/pe_response.png" width=90% height=auto>
@@ -181,7 +186,9 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/synthetic.gif" width=90% height=auto>
         </div>
 
-        <p>All of the computational specifics of these methods can be found in the <a href="http://jfeatherstone.xyz/pepe/pepe">documentation</a> for the open-source package.</p>
+        <p>All of the computational specifics of these methods can be found in the <a href="http://jfeatherstone.xyz/pepe/pepe">documentation</a> for our open-source package.</p>
+
+        <p>For more information about how we use these calculated quantities to understand our system, move on to "The Results".</p>
 
     </div>
 </div>
@@ -190,7 +197,38 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">The Results</h1>
 
-        <p>WIP!</p>
+        <p>Given our understanding of how our particles move (both linearly and rotationally) and what forces are acting on them, we now want to understand qualitatively what this means as our system evolves.</p>
+
+        <p>First and foremost, we see quite a bit of heterogeneity within our individual trials, each of which tend to roughly fit into a few different categories.</p>
+
+        <p>The first type we enumerate is characterized by continuous, smooth motion of the central particle. We plot below the driving force on the central particle (ie. the force between the central particle and its hinder particle), the velocity of the central particle, and the rotational orientation of the central particle.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/creep.png" width=90% height=auto>
+        </div>
+
+        <p>While there are minor fluctuations in all three curves, there is nothing that we would identify as a discrete slip event (taking into account the error bars, shown as the shaded regions on each plot). This trial demonstrates <i>creep</i> behavior<sup>7</sup>.
+
+        <p>We can also examine the same quantities for a trial that demonstrates a discrete slip event (indicated by the dashed line), falling into the <i>stick-slip</i><sup>8</sup> category.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/slip.png" width=90% height=auto>
+        </div>
+
+        <p>We have quite a bit more to talk about here, since all three descriptors demonstrate some artifact around the time of slip. The drop in force is how we identify these slip events in the first place, as it indicates that the resistance the particle is facing has suddenly dropped. This is corroborated by the velocity profile, which shows a momentary increase in the speed of the particle as it slips, which intuitively makes sense.</p>
+
+        <p>The unintuitive -- and therefore, the most interesting -- artifact is the reflection of angular velocity at the slip point: the particle begins to rotate in the opposite direction to the previous rotational motion. We can show that this is a consistent effect by examining other trials that demonstrate slip events, like the one below, within which we can see the same three artifacts.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/slip_2.png" width=90% height=auto>
+        </div>
+
+        <p>Because a circular object can only roll without slipping at (at most) a single contact at any given time, this reversal is an indication that a contact over which the central particle was previously rolling is now sliding, and another contact is now rolling. This slip represents the transition, at a specific contact, from rolling to sliding behavior, and the opposite transition for another contact.</p>
+
+        <p>We note that even when the particle is rolling, there is likely still some sliding behavior, but this suggests a veritable transition in the <i>dominant</i> mechanism of friction at a contact.</p>
+
+        <p>For more information on the broader impacts of this work, as well as our next steps, check out "Beyond The Results".</p>
+
     </div>
 </div>
 
@@ -198,7 +236,20 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">Beyond The Results</h1>
 
-        <p>WIP!</p>
+        <p>Our motivation for performing this experiment is to better understand how local regions of a macroscopic system evolve, by creating a system for which we can access the particle-scale dynamics. We have done this in our quantification of the individual contact forces, linear velocity, and rotational motion.</p>
+
+        <p>We then zoom back out to characterize how those microscopic measurements inform the macroscopic system dynamics, providing insight into how particles make use of both linear and rotational degrees of freedom to rearrange efficiently. In particular, we demonstrate the interplay between two mechanisms of friction by showing when sliding friction overtakes rolling friction (and vice versa) as the dominant dissipative contribution at a given contact.</p>
+
+        <p>This interplay of different mechanisms emphasizes the importance of going beyond a singly-inclusive model of friction when performing numerical simulations or modeling experimental systems.</p>
+
+        <p>We recognize that identifying transitions in the way we have done here is only possible in systems that demonstrate discrete slip events. In the future, we look to understand what system properties influence the presence (or lack thereof) of these events on the particle-scale. Does modulating the gap size -- implying a change in the packing fraction of the emulated macroscopic system -- have a significant effect on whether the system continuously creeps or discretely slips? Does particle stiffness -- implying a change in the degree to which elastic energy is stored in the system -- have any such impact?</p>
+
+        <p>We look forward to finding out!</p>
+
+        <div class="w3-center" style="max-width: 800px">
+            <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=90%>
+        </div>
+
     </div>
 </div>
 
@@ -213,6 +264,8 @@ li:not(:last-child) {margin-bottom: 2%;}
         <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a></li>
         <li>Shattuck (2015). Handbook of Granular Materials. CRC Press</li>
         <li><a href="https://doi.org/10.1007/s10035-019-0942-2">Abed Zadeh et al. (2019). Enlightening force chains: A review of photoelasticimetry in granular matter. Granular Matter, 21(4), 83.</a></li>
+        <li><a href="https://doi.org/10.1007/s10035-018-0863-5">Andò, E., Dijkstra, J., Roubin, E., Dano, C., & Boller, E. (2019). A peek into the origin of creep in sand. Granular Matter, 21(1), 11.</a></li>
+        <li><a href="https://doi.org/10.1103/PhysRevE.58.2161">Nasuno, S., Kudrolli, A., Bak, A., & Gollub, J. P. (1998). Time-resolved studies of stick-slip friction in sheared granular layers. Physical Review E, 58(2), 2161–2171.</a></li>
 
       </ol>
 
