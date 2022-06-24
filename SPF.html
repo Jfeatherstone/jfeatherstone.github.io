@@ -30,14 +30,14 @@ li:not(:last-child) {margin-bottom: 2%;}
 <!-- Header -->
 <header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
   <p class="w3-xlarge">Howdy! We're investigating</p>
-  <h1 class="w3-margin w3-jumbo">Friction and Failure<h1>
+  <h1 class="w3-margin w3-jumbo">Local Friction and Failure<h1>
 </header>
 
 <div class="w3-row-padding w3-container">
   <div class="w3-content w3-center">
-      <h5 class="w3-padding-8">Jack Featherstone and Karen Daniels</h5>
+      <h5 class="w3-padding-8">Jack Featherstone (<a href="mailto:jdfeathe@ncsu.edu">jdfeathe@ncsu.edu</a>) and Karen Daniels</h5>
       <h5 class="w3-padding-8">Department of Physics, NC State University</h5>
-      <h5 class="w3-padding-16">Triangle Soft Matter Workshop 2022, Duke University</h5>
+      <h5 class="w3-padding-16">Granular Matter 2022, Stonehill College</h5>
   </div>
 </div>
 
@@ -45,7 +45,7 @@ li:not(:last-child) {margin-bottom: 2%;}
   <div class="w3-content w3-large w3-center">
     <h1>Motivation</h1>
 
-    <p class="w3-padding-16">Granular materials comprise a large group of systems that are made of lots of individual, athermal grains. Their dynamics are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
+    <p class="w3-padding-16">Granular packings are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
 
     <div class="w3-content w3-center" style="max-width: 400px">
         <img src="images/squeezing_particles_0.png" width=80% height=auto>
@@ -102,6 +102,8 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/channel_exp.png" width=90% height=auto>
         </div>
 
+        <p>We can readily vary the width of the gap, the speed of the driver, and the stiffness of the driving mechanism.</p>
+
         <p>This experiment sits on an air table, which minimizes the effects of basal friction by floating the particles just above the bottom panel.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
@@ -118,7 +120,7 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/pe_response.png" width=80% height=auto>
         </div>
 
-        <p>We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities throughout the rearrangement event.</p> 
+        <p>We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities, as well as particle deformations, throughout the rearrangement event.</p> 
 
         <p class="w3-center w3-padding-16">For more information about all of these methods, check out "The Analysis".</p>
 
@@ -129,21 +131,35 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">The Analysis</h1>
 
-        <p>When describing our granular system, there are three fundamental things we want to know:</p>
+        <p>When describing our granular system, there are four fundamental things we want to know:</p>
 
         <ol>
             <li>How are the particles moving?</li>
+            <li>How are the particles deforming?</li>
             <li>How are the particles rotating?</li>
             <li>What forces are acting on the particles?</li>
         </ol>
 
-        <p>We can source all three of these descriptors from images taken of our system; we'll go through how we understand and quantify each one in the sections below!</p>
+        <p>We can source all four of these descriptors from images taken of our system; we'll go through how we understand and quantify each one in the sections below!</p>
 
         <h3 class="w3-left-align w3-padding-16">Linear Motion</h3>
 
         <p>To understand how a particle is moving, we need to know where the particle is located at any given time. We choose our particles to be circles (or rather, disks) which makes it very easy to track their centers as the system evolves.</p>
 
         <p>We use a convolutional tracking technique<sup>5</sup>, which quantifies how likely it is that a circle is centered at each point. This works extraordinarily well, no doubt in part due to the fact that we use very high resolution images, to the point that we can track the particles even to sub-pixel accuracy!</p>
+
+
+        <h3 class="w3-left-align w3-padding-16">Particle Compression</h3>
+
+        <p>Because we are performing experiments with soft particles (E = 4MPa), it is important to consider the amount of deformation occuring at each contact. This increases the surface area of the contact, and </p>
+
+        <p>Above, we used a convolutional technique to quantify how much the whole particle is moving; here, we care about how the edge of a particle is moving with respect to its center. To measure this compression, we use the convolution method again, except instead of measuring how likely it is that a particle center is located at each point, we measure how likely it is that a particle <i>edge</i> is located there.</p>
+
+        <p>The plot below measures the compression of the central particle during a trial run (lightly smoothed using windowed linear regression).</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/compression.png" width=95% height=auto>
+        </div>
 
 
         <h3 class="w3-left-align w3-padding-16">Rotational Motion</h3>
@@ -197,35 +213,38 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">The Results</h1>
 
-        <p>Given our understanding of how our particles move (both linearly and rotationally) and what forces are acting on them, we now want to understand qualitatively what this means as our system evolves.</p>
+        <p>Given our understanding of how our particles move (both linearly and rotationally), how they deform, and what forces are acting on them, we now want to understand qualitatively what this means as our system evolves.</p>
 
-        <p>First and foremost, we see quite a bit of heterogeneity within our individual trials, each of which tend to roughly fit into a few different categories.</p>
+        <p>First, we compare the measured compressive (normal) force, as a function of the measured particle deformation to the value predicted by Hertzian contact theory. This predicted value was calculated for two identical, finite, parallel cylinders<sup>7</sup>
 
-        <p>The first type we enumerate is characterized by continuous, smooth motion of the central particle. We plot below the driving force on the central particle (ie. the force between the central particle and its hinder particle), the velocity of the central particle, and the rotational orientation of the central particle.</p>
-
-        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
-            <img src="images/creep.png" width=90% height=auto>
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/stress_strain.png" width=90% height=auto>
         </div>
 
-        <p>While there are minor fluctuations in all three curves, there is nothing that we would identify as a discrete slip event (taking into account the error bars, shown as the shaded regions on each plot). This trial demonstrates <i>creep</i> behavior<sup>7</sup>.
+        <p>We can see semi-quantitative agreement between the experimental results and the model predictions, which demonstrates the validity of our measurements, especially considering that the model prediction has no fitting parameters.</p>
 
-        <p>We can also examine the same quantities for a trial that demonstrates a discrete slip event (indicated by the dashed line), falling into the <i>stick-slip</i><sup>8</sup> category.</p>
+
+        <p>Now examining the tangential forces acting on the central particle, we observe that the gap size has a significant effect on how the particle moves. For larger gaps -- analagous to examining a macroscopic systems with a lower packing fraction -- the particle has to do less work to rearrange.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/MHH_friction.png" width=90% height=auto>
+        </div>
+
+        <p>To better quantify this, we calculate the work required to push a single particle through this constrictive gap, both as a function of gap width and driving stiffness. On the plot below, filled points represent data that have been explicitly verified to be fully self-consistent.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/work_separation.png" width=90% height=auto>
+        </div>
+
+        <p>For both driving configurations, we observe a decrease in this work with increasing gap size, which drops to approximately zero as the width becomes larger than a particle diameter.</p>
+
+        <p>To investigate how rolling and sliding friction play into this quantification, we zoom into the force, velocity, and rotational profile for each trial individually. The curves shown below are pretty typical of a single trial, though it is worth noting that discrete slip events (indicated by the blue dashed line) are not always present.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/slip.png" width=90% height=auto>
         </div>
 
-        <p>We have quite a bit more to talk about here, since all three descriptors demonstrate some artifact around the time of slip. The drop in force is how we identify these slip events in the first place, as it indicates that the resistance the particle is facing has suddenly dropped. This is corroborated by the velocity profile, which shows a momentary increase in the speed of the particle as it slips, which intuitively makes sense.</p>
-
-        <p>The unintuitive -- and therefore, the most interesting -- artifact is the reflection of angular velocity at the slip point: the particle begins to rotate in the opposite direction to the previous rotational motion. We can show that this is a consistent effect by examining other trials that demonstrate slip events, like the one below, within which we can see the same three artifacts.</p>
-
-        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
-            <img src="images/slip_2.png" width=90% height=auto>
-        </div>
-
-        <p>Because a circular object can only roll without slipping at (at most) a single contact at any given time, this reversal is an indication that a contact over which the central particle was previously rolling is now sliding, and another contact is now rolling. This slip represents the transition, at a specific contact, from rolling to sliding behavior, and the opposite transition for another contact.</p>
-
-        <p>We note that even when the particle is rolling, there is likely still some sliding behavior, but this suggests a veritable transition in the <i>dominant</i> mechanism of friction at a contact.</p>
+        <p>Generally, the particle continuously deforms to navigate the constrictive gap, while can (but is not always) punctuated by discrete slips. When a particle does slip, we consistently observe a reflection in the rotation, evidencing the interplay between rolling and sliding friction.</p>
 
         <p>For more information on the broader impacts of this work, as well as our next steps, check out "Beyond The Results".</p>
 
@@ -236,9 +255,9 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-center w3-large">
         <h1 class="w3-center">Beyond The Results</h1>
 
-        <p>Our motivation for performing this experiment is to better understand how local regions of a macroscopic system evolve, by creating a system for which we can access the particle-scale dynamics. We have done this in our quantification of the individual contact forces, linear velocity, and rotational motion.</p>
+        <p>Our motivation for performing this experiment is to better understand how local regions of a macroscopic system evolve, by creating a system for which we can access the particle-scale dynamics. We have done this in our quantification of the individual contact forces, particle compression, linear velocity, and rotational motion.</p>
 
-        <p>We then zoom back out to characterize how those microscopic measurements inform the macroscopic system dynamics, providing insight into how particles make use of both linear and rotational degrees of freedom to rearrange efficiently. In particular, we demonstrate the interplay between two mechanisms of friction by showing when sliding friction overtakes rolling friction (and vice versa) as the dominant dissipative contribution at a given contact.</p>
+        <p>We then zoom back out to characterize how those microscopic measurements inform the macroscopic system dynamics, providing insight into how particles make use of linear, rotational, and elastic degrees of freedom to rearrange efficiently.</p>
 
         <p>This interplay of different mechanisms emphasizes the importance of going beyond a singly-inclusive model of friction when performing numerical simulations or modeling experimental systems.</p>
 
@@ -264,6 +283,7 @@ li:not(:last-child) {margin-bottom: 2%;}
         <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a></li>
         <li>Shattuck (2015). Handbook of Granular Materials. CRC Press</li>
         <li><a href="https://doi.org/10.1007/s10035-019-0942-2">Abed Zadeh et al. (2019). Enlightening force chains: A review of photoelasticimetry in granular matter. Granular Matter, 21(4), 83.</a></li>
+        <li>Johnson, K. L. (2003). Contact mechanics (9. print). Cambridge Univ. Press.</li>
         <li><a href="https://doi.org/10.1007/s10035-018-0863-5">Andò, E., Dijkstra, J., Roubin, E., Dano, C., & Boller, E. (2019). A peek into the origin of creep in sand. Granular Matter, 21(1), 11.</a></li>
         <li><a href="https://doi.org/10.1103/PhysRevE.58.2161">Nasuno, S., Kudrolli, A., Bak, A., & Gollub, J. P. (1998). Time-resolved studies of stick-slip friction in sheared granular layers. Physical Review E, 58(2), 2161–2171.</a></li>
 
