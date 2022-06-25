@@ -59,13 +59,13 @@ li:not(:last-child) {margin-bottom: 2%;}
 
     <p class="w3-padding-16">The simplest, and most widely known, model of friction is the one-parameter Coulomb law<sup>1</sup>: when the ratio of tangential to normal force acting at a contact exceeds a certain value, the contact yields, or fails.</p>
 
-    <p class="w3-padding-16">While this simple model generally works when you zoom out (literally or metaphorically) on a system, there are other types of friction that are only captured by more complex models. For example, when objects have rotational freedom, we have to think about rolling friction<sup>2</sup>, and if we don't restrict ourselves to solid systems, we must consider fluid friction<sup>3</sup>.</p>
-
-    <p class="w3-padding-16">Our work looks to shed some light on the difference between sliding and rolling friction in a granular system, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
+    <p class="w3-padding-16">While this simple model generally works when you zoom out (literally or metaphorically) on a system, it can't account for the intricacies at the contact scale, like elastic deformation<sup>2</sup>, stochastic variation<sup>3</sup>, and the multiple mechanisms of friction<sup>4</sup>. Other models improve upon some of these shortcomings<sup>5</sup>, but there are still many open questions about how to accurately describe macroscopic behavior without compromising microscopic dynamics.</p>
 
     <div class="w3-content w3-center" style="max-width: 500px">
         <img src="images/macro_system.png" width=80% height=auto>
     </div>
+
+    <p class="w3-padding-16">Our work looks to shed some light on these contact-scale dynamics, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
 
     <p class="w3-padding-16 w3-center">Click any of the sections below to explore our research!</p>
   </div>
@@ -114,13 +114,13 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/full_exp.png" width=95% height=auto>
         </div>
 
-        <p>We make measurements of the interparticle forces using the photoelastic response of the particles<sup>4</sup>: these materials have stress-dependent optical properties, leading to areas with higher forces appearing brighter.</p>
+        <p>We make measurements of the interparticle forces using the photoelastic response of the particles<sup>6</sup>: these materials have stress-dependent optical properties, resulting in unique fringe patterns based on the applied load.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/pe_response.png" width=80% height=auto>
         </div>
 
-        <p>We also track the linear and rotational positions of the particles using convolutional techniques, which allows us to calculate linear and angular velocities, as well as particle deformations, throughout the rearrangement event.</p> 
+        <p>We also track the linear and rotational positions of the particles, which allows us to calculate linear and angular velocities, as well as particle deformations, throughout the rearrangement event.</p> 
 
         <p class="w3-center w3-padding-16">For more information about all of these methods, check out "The Analysis".</p>
 
@@ -146,16 +146,20 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <p>To understand how a particle is moving, we need to know where the particle is located at any given time. We choose our particles to be circles (or rather, disks) which makes it very easy to track their centers as the system evolves.</p>
 
-        <p>We use a convolutional tracking technique<sup>5</sup>, which quantifies how likely it is that a circle is centered at each point. This works extraordinarily well, no doubt in part due to the fact that we use very high resolution images, to the point that we can track the particles even to sub-pixel accuracy!</p>
+        <p>We use a convolutional tracking technique<sup>7</sup>, which quantifies how likely it is that a circle is centered at each point. This works extraordinarily well, no doubt in part due to the fact that we use very high resolution images, to the point that we can track the particles even to sub-pixel accuracy!</p>
 
 
         <h3 class="w3-left-align w3-padding-16">Particle Compression</h3>
 
-        <p>Because we are performing experiments with soft particles (E = 4MPa), it is important to consider the amount of deformation occuring at each contact. This increases the surface area of the contact, and </p>
+        <p>Because we are performing experiments with soft particles (E = 4MPa), it is important to consider the amount of deformation occuring at each contact. This increases the surface area of the contact, and stores energy through the elastic compression.</p>
 
-        <p>Above, we used a convolutional technique to quantify how much the whole particle is moving; here, we care about how the edge of a particle is moving with respect to its center. To measure this compression, we use the convolution method again, except instead of measuring how likely it is that a particle center is located at each point, we measure how likely it is that a particle <i>edge</i> is located there.</p>
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 500px">
+            <img src="images/stress_strain_diagram.png" width=90% height=auto>
+        </div>
 
-        <p>The plot below measures the compression of the central particle during a trial run (lightly smoothed using windowed linear regression).</p>
+        <p>Above, we used a convolutional technique to quantify how much the center of a particle is moving; here, we care about how the edge of a particle is moving with respect to its center. To measure this compression, we use the convolution method again, except instead of measuring how likely it is that a particle center is located at each point, we measure how likely it is that a particle <i>edge</i> is located there.</p>
+
+        <p>The plot below measures the compression of the central particle during a trial run (lightly smoothed using windowed linear regression). Our particles are approximately 320 pixels in diameter; this 2-5% compression is the typical scale we observe.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/compression.png" width=95% height=auto>
@@ -164,9 +168,7 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <h3 class="w3-left-align w3-padding-16">Rotational Motion</h3>
 
-        <p>Tracking the rotational motion of particles is a little harder than linear motion, since our particles are circularly symmetric. To track rotations, we need some artifact of the particles that does <b>not</b> have rotational symmetry, a candidate for which is not immediately obvious, at least to the human eye.</p>
-
-        <p>Do you see anything below that differs between the images of the same particle at two different times?</p>
+        <p>Tracking rotational motion is a little harder than linear motion, since our particles are circularly symmetric. To successfully do this, we need some artifact of the particles that does <b>not</b> have rotational symmetry, a candidate for which is not immediately obvious, at least to the human eye.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
             <img src="images/angular_conv_cropped.png" width=95% height=auto>
@@ -188,15 +190,15 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <h3 class="w3-left-align w3-padding-16">Contact Forces</h3>
 
-        <p>Lastly, we would like to know what forces are acting on each particle, so we can differentiate normal from tangential components, calculate coefficients of friction from the Coulomb model, and identify when and where we should look for slips.</p>
+        <p>Lastly, we would like to know what forces are acting on each particle, so we can differentiate normal from tangential components, calculate coefficients of friction from the Coulomb model, and identify any slip events.</p>
 
-        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>4,6</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
+        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>6,8</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/pe_response.png" width=90% height=auto>
         </div>
        
-        <p>The hard part comes from turning these images into force magnitudes, positions, and contact angles, which we need to make any quantitative observations. We build on previous methods<sup>4</sup> that make use of an analytic description of these photoelastic responses and non-linear optimization techniques to achieve this. In particular, our developments make the technique much more sensitive to small tangential forces, which can otherwise be very difficult to detect in the shadows of the larger, normal components.</p>
+        <p>The hard part comes from turning these images into force magnitudes, positions, and contact angles, which we need to make any quantitative observations. We build on previous methods<sup>6</sup> that make use of an analytic description of these photoelastic responses and non-linear optimization techniques to achieve this. In particular, our developments make the technique much more sensitive to small tangential forces, which can otherwise be very difficult to detect in the shadows of the larger, normal components.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/synthetic.gif" width=90% height=auto>
@@ -215,7 +217,7 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <p>Given our understanding of how our particles move (both linearly and rotationally), how they deform, and what forces are acting on them, we now want to understand qualitatively what this means as our system evolves.</p>
 
-        <p>First, we compare the measured compressive (normal) force, as a function of the measured particle deformation to the value predicted by Hertzian contact theory. This predicted value was calculated for two identical, finite, parallel cylinders<sup>7</sup>
+        <p>First, we compare the measured compressive (normal) force, as a function of the measured particle deformation, to the value predicted by Hertzian contact theory. This predicted value was calculated for two identical, finite, parallel cylinders<sup>9</sup>.</p>
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
             <img src="images/stress_strain.png" width=90% height=auto>
@@ -244,7 +246,7 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/slip.png" width=90% height=auto>
         </div>
 
-        <p>Generally, the particle continuously deforms to navigate the constrictive gap, while can (but is not always) punctuated by discrete slips. When a particle does slip, we consistently observe a reflection in the rotation, evidencing the interplay between rolling and sliding friction.</p>
+        <p>Generally, the particle continuously deforms to navigate the constrictive gap, which can be (but is not always) punctuated by discrete slips. When a particle does slip, we consistently observe a reflection in the rotation, evidencing the interplay between rolling and sliding friction.</p>
 
         <p>For more information on the broader impacts of this work, as well as our next steps, check out "Beyond The Results".</p>
 
@@ -261,11 +263,11 @@ li:not(:last-child) {margin-bottom: 2%;}
 
         <p>This interplay of different mechanisms emphasizes the importance of going beyond a singly-inclusive model of friction when performing numerical simulations or modeling experimental systems.</p>
 
-        <p>We recognize that identifying transitions in the way we have done here is only possible in systems that demonstrate discrete slip events. In the future, we look to understand what system properties influence the presence (or lack thereof) of these events on the particle-scale. Does modulating the gap size -- implying a change in the packing fraction of the emulated macroscopic system -- have a significant effect on whether the system continuously creeps or discretely slips? Does particle stiffness -- implying a change in the degree to which elastic energy is stored in the system -- have any such impact?</p>
+        <p>The next immediate step for this work is to better quantify the behavior at each slip; we are intersted both in the linear-rotational cooperation, as well as understanding the system parameters (gap size, driving speed, and driving stiffness) for which slip behavior is more or less common.</p>
 
-        <p>We look forward to finding out!</p>
+        <p>Beyond this, we'd like to compare our results to those within larger systems, and inquire as to how the dynamics scale to a macroscopic context.</p>
 
-        <div class="w3-center" style="max-width: 800px">
+        <div class="w3-content w3-center" style="max-width: 800px">
             <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=90%>
         </div>
 
@@ -278,15 +280,14 @@ li:not(:last-child) {margin-bottom: 2%;}
 
       <ol class="w3-left-align">
         <li>Coulomb, C. A. (1785). l'Académie des sciences pour l'année 1781. De l'Imprimerie Royale.</li>
+        <li><a href="https://doi.org/10.1098/rspa.1957.0214">Archard, J. F., & Allibone, T. E. (1957). Elastic deformation and the laws of friction. Proceedings of the Royal Society of London. Series A. Mathematical and Physical Sciences, 243(1233), 190–205.</a></li>
         <li><a href="https://doi.org/10.1103/PhysRevE.102.032903">Santos, A. P. et al. (2020). Granular packings with sliding, rolling, and twisting friction. Physical Review E, 102(3), 032903.</a></li>
-        <li><a href="https://doi.org/10.1103/PhysRevFluids.5.110516">Juanes, R. et al. (2020). Multiphase flow and granular mechanics. Physical Review Fluids, 5(11), 110516.</a></li>
+        <li><a href="https://doi.org/10.1016/j.jmps.2020.104242">Albertini, G. et al. (2021). Stochastic properties of static friction. Journal of the Mechanics and Physics of Solids, 147, 104242. </a></li>
+        <li><a href="https://doi.org/10.1016/j.jappmathmech.2016.06.008">Zobova, A. A. (2016). A review of models of distributed dry friction. Journal of Applied Mathematics and Mechanics, 80(2), 141–148.</a></li>
         <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a></li>
         <li>Shattuck (2015). Handbook of Granular Materials. CRC Press</li>
         <li><a href="https://doi.org/10.1007/s10035-019-0942-2">Abed Zadeh et al. (2019). Enlightening force chains: A review of photoelasticimetry in granular matter. Granular Matter, 21(4), 83.</a></li>
         <li>Johnson, K. L. (2003). Contact mechanics (9. print). Cambridge Univ. Press.</li>
-        <li><a href="https://doi.org/10.1007/s10035-018-0863-5">Andò, E., Dijkstra, J., Roubin, E., Dano, C., & Boller, E. (2019). A peek into the origin of creep in sand. Granular Matter, 21(1), 11.</a></li>
-        <li><a href="https://doi.org/10.1103/PhysRevE.58.2161">Nasuno, S., Kudrolli, A., Bak, A., & Gollub, J. P. (1998). Time-resolved studies of stick-slip friction in sheared granular layers. Physical Review E, 58(2), 2161–2171.</a></li>
-
       </ol>
 
   </div>
