@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Friction and Failure on the Single Particle Scale</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" href="./favicon.png" type="image/x-icon">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+
+.w3-third {display: flex; align-items: center; justify-content: center; padding: 10px}
+
+li:not(:last-child) {margin-bottom: 2%;}
+</style>
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-light-blue w3-card w3-left-align w3-large">
+    <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
+  </div>
+
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-pale-blue w3-center" style="padding:96px 16px">
+  <p class="w3-xlarge">Howdy! We're investigating</p>
+  <h1 class="w3-margin w3-jumbo">Spiderweb Structure and Geometry<h1>
+</header>
+
+<div class="w3-row-padding w3-container">
+  <div class="w3-content w3-center">
+      <h5 class="w3-padding-8">Jack Featherstone (<a href="mailto:jdfeathe@ncsu.edu">jack.featherstone@oist.jp</a>) and Mahesh Bandi</h5>
+      <h5 class="w3-padding-8">Okinawa Institute of Science and Technology</h5>
+      <h5 class="w3-padding-16">Soft and Living Matter, ICTS</h5>
+  </div>
+</div>
+
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content w3-large w3-center">
+    <h1>Motivation</h1>
+
+    <p class="w3-padding-16">Granular packings are strongly influenced by dissipative particle-particle interactions, of which friction is a very important example.</p>
+
+    <div class="w3-content w3-center" style="max-width: 400px">
+        <img src="images/squeezing_particles_0.png" width=80% height=auto>
+    </div>
+
+    <p class="w3-padding-16">Even though the influence of friction extends far beyond granular materials, we still have yet to put forth a complete description of its mechanism -- or mechanisms. Such an understanding would be fantastically important in both academic and industrial contexts, especially when it comes to understanding frictional failure.</p>
+
+    <div class="w3-content w3-center" style="max-width: 400px">
+        <img src="images/squeezing_particles_1.png" width=80% height=auto>
+    </div>
+
+    <p class="w3-padding-16">The simplest, and most widely known, model of friction is the one-parameter Coulomb law<sup>1</sup>: when the ratio of tangential to normal force acting at a contact exceeds a certain value, the contact yields, or fails.</p>
+
+    <p class="w3-padding-16">While this simple model generally works when you zoom out (literally or metaphorically) on a system, it can't account for the intricacies at the contact scale, like elastic deformation<sup>2</sup>, stochastic variation<sup>3</sup>, and the multiple mechanisms of friction<sup>4</sup>. Other models improve upon some of these shortcomings<sup>5</sup>, but there are still many open questions about how to accurately describe macroscopic behavior without compromising microscopic dynamics.</p>
+
+    <div class="w3-content w3-center" style="max-width: 500px">
+        <img src="images/macro_system.png" width=80% height=auto>
+    </div>
+
+    <p class="w3-padding-16">Our work looks to shed some light on these contact-scale dynamics, especially as particles locally rearrange, undergoing constant build up and release of interparticle stresses.</p>
+
+    <p class="w3-padding-16 w3-center">Click any of the sections below to explore our research!</p>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="w3-row-padding w3-container w3-center">
+    <div class="w3-bar w3-theme w3-center">
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-dark-grey" onclick="openTab(event,'experiment')">The Experiment</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'analysis')">The Analysis</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'results')">The Results</button>
+        </div>
+
+        <div class="w3-third">
+            <button class="w3-bar-item w3-button testbtn w3-padding-16 w3-large w3-center w3-light-gray" onclick="openTab(event,'discussion')">Beyond The Results</button>
+        </div>
+    </div>
+</div>
+
+<div id="experiment" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-large w3-center">
+        <h1 class="w3-center">The Experiment</h1>
+
+        <p>In our 2D system, photoelastic disks are driven through a constrictive gap of set width, during which we observe the build up and release of stress on the particles.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/channel_exp.png" width=90% height=auto>
+        </div>
+
+        <p>We can readily vary the width of the gap, the speed of the driver, and the stiffness of the driving mechanism.</p>
+
+        <p>This experiment sits on an air table, which minimizes the effects of basal friction by floating the particles just above the bottom panel.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/air_table.png" width=95% height=auto>
+        </div>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/full_exp.png" width=95% height=auto>
+        </div>
+
+        <p>We make measurements of the interparticle forces using the photoelastic response of the particles<sup>6</sup>: these materials have stress-dependent optical properties, resulting in unique fringe patterns based on the applied load.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/pe_response.png" width=80% height=auto>
+        </div>
+
+        <p>We also track the linear and rotational positions of the particles, which allows us to calculate linear and angular velocities, as well as particle deformations, throughout the rearrangement event.</p> 
+
+        <p class="w3-center w3-padding-16">For more information about all of these methods, check out "The Analysis".</p>
+
+    </div>
+</div>
+
+<div id="analysis" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">The Analysis</h1>
+
+        <p>When describing our granular system, there are four fundamental things we want to know:</p>
+
+        <ol>
+            <li>How are the particles moving?</li>
+            <li>How are the particles deforming?</li>
+            <li>How are the particles rotating?</li>
+            <li>What forces are acting on the particles?</li>
+        </ol>
+
+        <p>We can source all four of these descriptors from images taken of our system; we'll go through how we understand and quantify each one in the sections below!</p>
+
+        <h3 class="w3-left-align w3-padding-16">Linear Motion</h3>
+
+        <p>To understand how a particle is moving, we need to know where the particle is located at any given time. We choose our particles to be circles (or rather, disks) which makes it very easy to track their centers as the system evolves.</p>
+
+        <p>We use a convolutional tracking technique<sup>7</sup>, which quantifies how likely it is that a circle is centered at each point. This works extraordinarily well, no doubt in part due to the fact that we use very high resolution images, to the point that we can track the particles even to sub-pixel accuracy!</p>
+
+
+        <h3 class="w3-left-align w3-padding-16">Particle Compression</h3>
+
+        <p>Because we are performing experiments with soft particles (E = 4MPa), it is important to consider the amount of deformation occuring at each contact. This increases the surface area of the contact, and stores energy through the elastic compression.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 500px">
+            <img src="images/stress_strain_diagram.png" width=90% height=auto>
+        </div>
+
+        <p>Above, we used a convolutional technique to quantify how much the center of a particle is moving; here, we care about how the edge of a particle is moving with respect to its center. To measure this compression, we use the convolution method again, except instead of measuring how likely it is that a particle center is located at each point, we measure how likely it is that a particle <i>edge</i> is located there.</p>
+
+        <p>The plot below measures the compression of the central particle during a trial run (lightly smoothed using windowed linear regression). Our particles are approximately 320 pixels in diameter; this 2-5% compression is the typical scale we observe.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/compression.png" width=95% height=auto>
+        </div>
+
+
+        <h3 class="w3-left-align w3-padding-16">Rotational Motion</h3>
+
+        <p>Tracking rotational motion is a little harder than linear motion, since our particles are circularly symmetric. To successfully do this, we need some artifact of the particles that does <b>not</b> have rotational symmetry, a candidate for which is not immediately obvious, at least to the human eye.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/angular_conv_cropped.png" width=95% height=auto>
+        </div>
+
+        <p>The solution here lies in something that might otherwise be considered noise in the images: the speckle pattern on the bottom of each particle. This pattern, an artifact of the method by which the particles are created, is not only unique, but anisotropic.</p>
+
+        <p>We can identify the relative rotation between any two frames by rotating one image until the two speckle patterns line up with each other. You might expect that this would be a rather weak signal, scarcely better than the minor differences in lighting across the system, but in fact it is so strong we can easily track the rotational motion of all of our particles!</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/angular_conv_test.png" width=100% height=auto>
+        </div>
+
+        <p>The movie below demonstrates the results of this rotational tracking, overlaid on the raw images.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/particle_orientation.gif" width=90% height=auto>
+        </div>
+
+        <h3 class="w3-left-align w3-padding-16">Contact Forces</h3>
+
+        <p>Lastly, we would like to know what forces are acting on each particle, so we can differentiate normal from tangential components, calculate coefficients of friction from the Coulomb model, and identify any slip events.</p>
+
+        <p>The key here is to make our particles from materials that demonstrate <i>photoelasticity</i><sup>6,8</sup>, or stress-dependent optical properties. Given the right lighting, this visually distinguishes regions of high force from those with low forces, producing patterns like the one below.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/pe_response.png" width=90% height=auto>
+        </div>
+       
+        <p>The hard part comes from turning these images into force magnitudes, positions, and contact angles, which we need to make any quantitative observations. We build on previous methods<sup>6</sup> that make use of an analytic description of these photoelastic responses and non-linear optimization techniques to achieve this. In particular, our developments make the technique much more sensitive to small tangential forces, which can otherwise be very difficult to detect in the shadows of the larger, normal components.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/synthetic.gif" width=90% height=auto>
+        </div>
+
+        <p>All of the computational specifics of these methods can be found in the <a href="http://jfeatherstone.xyz/pepe/pepe">documentation</a> for our open-source package.</p>
+
+        <p>For more information about how we use these calculated quantities to understand our system, move on to "The Results".</p>
+
+    </div>
+</div>
+
+<div id="results" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">The Results</h1>
+
+        <p>Given our understanding of how our particles move (both linearly and rotationally), how they deform, and what forces are acting on them, we now want to understand qualitatively what this means as our system evolves.</p>
+
+        <p>First, we compare the measured compressive (normal) force, as a function of the measured particle deformation, to the value predicted by Hertzian contact theory. This predicted value was calculated for two identical, finite, parallel cylinders<sup>9</sup>.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/stress_strain.png" width=90% height=auto>
+        </div>
+
+        <p>We can see semi-quantitative agreement between the experimental results and the model predictions, which demonstrates the validity of our measurements, especially considering that the model prediction has no fitting parameters.</p>
+
+
+        <p>Now examining the tangential forces acting on the central particle, we observe that the gap size has a significant effect on how the particle moves. For larger gaps -- analagous to examining a macroscopic systems with a lower packing fraction -- the particle has to do less work to rearrange.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/MHH_friction.png" width=90% height=auto>
+        </div>
+
+        <p>To better quantify this, we calculate the work required to push a single particle through this constrictive gap, both as a function of gap width and driving stiffness. On the plot below, filled points represent data that have been explicitly verified to be fully self-consistent.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/work_separation.png" width=90% height=auto>
+        </div>
+
+        <p>For both driving configurations, we observe a decrease in this work with increasing gap size, which drops to approximately zero as the width becomes larger than a particle diameter.</p>
+
+        <p>To investigate how rolling and sliding friction play into this quantification, we zoom into the force, velocity, and rotational profile for each trial individually. The curves shown below are pretty typical of a single trial, though it is worth noting that discrete slip events (indicated by the blue dashed line) are not always present.</p>
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 800px">
+            <img src="images/slip.png" width=90% height=auto>
+        </div>
+
+        <p>Generally, the particle continuously deforms to navigate the constrictive gap, which can be (but is not always) punctuated by discrete slips. When a particle does slip, we consistently observe a reflection in the rotation, evidencing the interplay between rolling and sliding friction.</p>
+
+        <p>For more information on the broader impacts of this work, as well as our next steps, check out "Beyond The Results".</p>
+
+    </div>
+</div>
+
+<div id="discussion" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+    <div class="w3-content w3-center w3-large">
+        <h1 class="w3-center">Beyond The Results</h1>
+
+        <p>Our motivation for performing this experiment is to better understand how local regions of a macroscopic system evolve, by creating a system for which we can access the particle-scale dynamics. We have done this in our quantification of the individual contact forces, particle compression, linear velocity, and rotational motion.</p>
+
+        <p>We then zoom back out to characterize how those microscopic measurements inform the macroscopic system dynamics, providing insight into how particles make use of linear, rotational, and elastic degrees of freedom to rearrange efficiently.</p>
+
+        <p>This interplay of different mechanisms emphasizes the importance of going beyond a singly-inclusive model of friction when performing numerical simulations or modeling experimental systems.</p>
+
+        <p>The next immediate step for this work is to better quantify the behavior at each slip; we are intersted both in the linear-rotational cooperation, as well as understanding the system parameters (gap size, driving speed, and driving stiffness) for which slip behavior is more or less common.</p>
+
+        <p>Beyond this, we'd like to compare our results to those within larger systems, and inquire as to how the dynamics scale to a macroscopic context.</p>
+
+        <div class="w3-content w3-center" style="max-width: 800px">
+            <img src="https://raw.githubusercontent.com/Jfeatherstone/sketch-your-science/master/grains/PE_particles.png" width=90%>
+        </div>
+
+    </div>
+</div>
+
+<div class="w3-row-padding w3-container">
+  <div class="w3-content w3-center">
+      <h1 class="w3-right-align">References</h1>
+
+      <ol class="w3-left-align">
+        <li>Coulomb, C. A. (1785). l'Académie des sciences pour l'année 1781. De l'Imprimerie Royale.</li>
+        <li><a href="https://doi.org/10.1098/rspa.1957.0214">Archard, J. F., & Allibone, T. E. (1957). Elastic deformation and the laws of friction. Proceedings of the Royal Society of London. Series A. Mathematical and Physical Sciences, 243(1233), 190–205.</a></li>
+        <li><a href="https://doi.org/10.1103/PhysRevE.102.032903">Santos, A. P. et al. (2020). Granular packings with sliding, rolling, and twisting friction. Physical Review E, 102(3), 032903.</a></li>
+        <li><a href="https://doi.org/10.1016/j.jmps.2020.104242">Albertini, G. et al. (2021). Stochastic properties of static friction. Journal of the Mechanics and Physics of Solids, 147, 104242. </a></li>
+        <li><a href="https://doi.org/10.1016/j.jappmathmech.2016.06.008">Zobova, A. A. (2016). A review of models of distributed dry friction. Journal of Applied Mathematics and Mechanics, 80(2), 141–148.</a></li>
+        <li><a href="https://doi.org/10.1063/1.4983049">Daniels, K. E. et al. (2017). Photoelastic force measurements in granular materials. Review of Scientific Instruments, 88(5), 051808.</a></li>
+        <li>Shattuck (2015). Handbook of Granular Materials. CRC Press</li>
+        <li><a href="https://doi.org/10.1007/s10035-019-0942-2">Abed Zadeh et al. (2019). Enlightening force chains: A review of photoelasticimetry in granular matter. Granular Matter, 21(4), 83.</a></li>
+        <li>Johnson, K. L. (2003). Contact mechanics (9. print). Cambridge Univ. Press.</li>
+      </ol>
+
+  </div>
+</div>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
+    <div class="w3-content">
+        <p><a href="mailto:jdfeathe@ncsu.edu">Contact me</a></p>
+        <p><a href="https://github.com/jfeatherstone/jfeatherstone.github.io" target="_blank">Website Source Code</a></p>
+    </div>
+</div>
+
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Tabs
+function openTab(evt, tabName) {
+  var i;
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  var activebtn = document.getElementsByClassName("testbtn");
+  for (i = 0; i < x.length; i++) {
+    activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", " w3-light-gray");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " w3-dark-grey";
+}
+
+// Startup
+function startup(startTab) {
+  var x = document.getElementsByClassName("tab");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  document.getElementById(startTab).style.display = "block";
+}
+
+startup("experiment");
+</script>
+
+</body>
+</html>
+
