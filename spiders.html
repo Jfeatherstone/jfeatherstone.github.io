@@ -21,23 +21,23 @@ li:not(:last-child) {margin-bottom: 2%;}
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+  <div class="w3-bar w3-blue w3-card w3-left-align w3-large">
     <a href="./index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
   </div>
 
 </div>
 
 <!-- Header -->
-<header class="w3-container w3-pale-red w3-center" style="padding:48px 16px">
+<header class="w3-container w3-pale-blue w3-center" style="padding:48px 16px">
   <p class="w3-xlarge">Howdy! We're investigating</p>
-  <h1 class="w3-margin w3-xxlarge"><b>Spiderwebs</b><h1>
+  <h1 class="w3-margin w3-xxlarge"><b>Predator-Prey Interactions of Spiders</b><h1>
 </header>
 
 <div class="w3-row-padding w3-container">
   <div class="w3-content w3-center">
-      <h5 class="w3-padding-8">Jack Featherstone (<a href="mailto:jdfeathe@ncsu.edu">jack.featherstone@oist.jp</a>) and Mahesh Bandi</h5>
+      <h4 class="w3-padding-16">Jack Featherstone (<a href="mailto:jack.featherstone@oist.jp">jack.featherstone@oist.jp</a>) and Mahesh Bandi</h5>
       <h5 class="w3-padding-8">Nonlinear and Non-equilibrium Physics Unit, OIST Graduate University</h5>
-      <h5 class="w3-padding-16">Soft and Living Matter 2023, ICTS</h5>
+      <h5 class="w3-padding-8">OIST-Kyudai Symposium: Bio-Inspired Wonders and Energy Innovations</h5>
   </div>
 </div>
 
@@ -65,8 +65,6 @@ li:not(:last-child) {margin-bottom: 2%;}
 
     <p class="w3-padding-16">But how does the spider decide where to place these gumfooted traps? Does its strategy (if it is even appropriate to reference such a thing) vary based on the available prey for the spider, or the geometry of its environment? </p>
 
-    <p class="w3-padding-16">Similarly, how does the spiderweb act an external auditory sensor for the spider in transmitting vibrations generated from the captured prey? Generally, how do vibration propagate through this complex, overconstrained, elastic network?
-
     <p class="w3-padding-16">Considering the "two-body problem" of the spider and the pedestrian prey, how long does it typically take for the insect to blunder into the trap? Can this distribution be recreated by modelling the prey as some type of two-dimensional walk through a field of random traps?</p>
 
     <p class="w3-padding-16 w3-center">Click any of the sections below to explore how we are looking to answer some of these questions!</p>
@@ -76,17 +74,15 @@ li:not(:last-child) {margin-bottom: 2%;}
 <!-- Tabs -->
 <div class="w3-row-padding w3-container w3-center">
     <div class="w3-bar w3-theme w3-center">
-        <div class="w3-third">
-            <button class="w3-bar-item w3-button testbtn w3-padding-24 w3-large w3-dark-grey" onclick="openTab(event,'scanning')">Web Scanning</button>
+
+        <div class="w3-half">
+            <button class="w3-bar-item w3-button testbtn w3-padding-24 w3-large w3-light-gray" onclick="openTab(event,'fptd')">First Passage Simulations</button>
         </div>
 
-        <div class="w3-third">
-        </div>
 
-        <div class="w3-third">
-            <button class="w3-bar-item w3-button testbtn w3-padding-24 w3-large w3-center w3-light-gray" onclick="openTab(event,'graph')">Graph Construction</button>
+        <div class="w3-half">
+            <button class="w3-bar-item w3-button testbtn w3-padding-24 w3-large w3-light-grey" onclick="openTab(event,'scanning')">Web Scanning</button>
         </div>
-
 
     </div>
 </div>
@@ -95,7 +91,7 @@ li:not(:last-child) {margin-bottom: 2%;}
     <div class="w3-content w3-large w3-center">
         <h1 class="w3-center">Web Scanning</h1>
 
-        <p>Many of the above questions reference structure and geometry, so we ought to be able to quantify the web woven by these spiders. For inherently two-dimensional webs as woven by an orb-weaver, this can be easily done by taking a planar snapshot (with an appropriately chosen plane of course), as in the (infamous) study of spider web construction under the influence of various drugs<sup>3</sup>.
+        <p>If we want to test the spider's choice of trap placement as we did in the previous section, we ought to be able to quantify the web woven by these spiders. For inherently two-dimensional webs as woven by an orb-weaver, this can be easily done by taking a planar snapshot (with an appropriately chosen plane of course), as in the (infamous) study of spider web construction under the influence of various drugs<sup>3</sup>.
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 1200px">
             <img src="images/spiders/spiders_and_drugs.png" width=90% height=auto>
@@ -113,30 +109,49 @@ li:not(:last-child) {margin-bottom: 2%;}
             <img src="images/spiders/2d_web_scan.png" width=95% height=auto>
         </div>
 
-        <p>While this looks quite obviously like a spiderweb to our eye, the data is still just an unordered point cloud, which can be seen by zooming in.</p> 
+        <p>Applied to our <it>Latrodectus</it> spiders, this can give us the spatial distribution of traps.
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 500px">
-            <img src="images/spiders/2d_web_zoom.png" width=95% height=auto>
+            <img src="images/spiders/geometricus_scan.png" width=95% height=auto>
         </div>
 
-        <p class="w3-center w3-padding-16">From here, we need to <i>skeletonize</i> the point cloud to extract a proper spatially-embedded graph.</p>
-
+        <p>But of course scanning only a single web doesn't tell us much about the trends and patterns in how the traps are made. For that, we have to scan enough to be able to look at statistics.</p>
     </div>
 </div>
 
-<div id="graph" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
+<div id="fptd" class="w3-container w3-row-padding w3-padding-64 tab w3-animate-opacity">
     <div class="w3-content w3-center w3-large">
-        <h1 class="w3-center">Graph Construction</h1>
+        <h1 class="w3-center">First Passage Simulations</h1>
 
-        <p>Indeed, to get useful information out of our three-dimensional scan, we must remove artifacts of the scanning through a process called <i>skeletonization</i>.</p>
+        <p>How can we quantify the question of whether a configuration of traps is "effective" or not?</p>
+
+        <p>When we say effective here, we mean that if there is an agent walking around (say an ant or beetle), it will become trapped with a high probability and/or in a short period of time. So to quantify this, we should simulate what happens when such an agent walks around in a given field of traps!</p>
+
+        <p>To demonstrate, let's consider two different ways to arrange our traps: in a crystalline (square lattice) pattern, or distributed completely randomly (but uniformly).
 
         <div class="w3-content w3-center w3-padding-16" style="max-width: 1000px">
-            <img src="images/spiders/skeletonization_example.png" width=95% height=auto>
+            <img src="images/spiders/example_traps.png" width=95% height=auto>
+        </div>
+        
+        <p>Let's first consider just one part of the proposed quantification above: which of these two configurations will lead to capture faster (on average)?</p>
+
+        <p> We will test this by placing a random walker inside of our trapped region (starting at some random point), and then taking steps until we hit a trap. Rigorously, we will define both our traps and walker to have some finite but small size, and we will take steps with a uniform angle distribution (same probability to move in any direction) and a Guassian step size distribution (no huge steps allowed).
+
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 600px">
+            <img src="images/spiders/example_walk.png" width=75% height=auto>
         </div>
 
-        <p>Skeletonization is a common technique in the many different fields, for example in forestry<sup>5</sup> or medical sciences<sup>6</sup>, and as such, there are many algorithms available. That being said, the vast majority of these algorithms are oriented towards systems that are <i>topologically simple</i>: generally either trees, with no holes, or solid objects with very few holes.</p>
+        <p>We perform this trapping simulation for a large number of runs (~10<sup>5</sup>), and then calculate the histogram of how long it takes for the walker to get trapped for both configurations.</p>
 
-        <p>Spiderwebs, on the other hand, may have hundreds or even thousands of holes, and as a reult, state-of-the-art methods often smooth out the topology of the web into a non-physical representation.</p>
+        <div class="w3-content w3-center w3-padding-16" style="max-width: 700px">
+            <img src="images/spiders/lattice_random_fptd.png" width=75% height=auto>
+        </div>
+
+        <p>First off, we immediately notice that there is a difference between the two curves, even though the total number of traps remains the same in both cases! So indeed there are better and worse ways to place our traps. On top of this, both distributions are exponential (a straight line in semi-log); this behavior is typical of trapping phenomena with lots of traps, or generally of first passage phenomena of not-so-rare events.</p>
+
+        <p>These distributions should also depend on the parameters for the walker; if it makes bigger steps, or chooses its directions non-randomly, or has a larger size, we expect to see different results.</p>
+
+        <p> So we have the language to describe the effectiveness of a set of traps, now, instead of looking at arbitrarily chosen distributions, we want to see how the spider makes her traps.</p>
 
     </div>
 </div>
@@ -201,7 +216,7 @@ function startup(startTab) {
   document.getElementById(startTab).style.display = "block";
 }
 
-startup("scanning");
+startup("fptd");
 </script>
 
 </body>
