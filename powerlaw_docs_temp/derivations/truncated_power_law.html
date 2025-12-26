@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Visualization" href="visualization.html" /><link rel="prev" title="Differences with other libraries" href="other_libraries.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Exponential Derivations" href="exponential.html" /><link rel="prev" title="Power Law Derivations" href="power_law.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Loading data - powerlaw 1.6.0 documentation</title>
+        <title>Truncated Power Law Derivations - powerlaw 1.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
@@ -200,18 +200,18 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../tutorials_top.html">Tutorials</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="other_libraries.html">Differences with other libraries</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Loading data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualization.html">Visualization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scaling_range.html">Identifying the scaling range</a></li>
-<li class="toctree-l2"><a class="reference internal" href="discrete_continuous.html">Continuous and discrete data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ranges_and_constraints.html">Parameter Ranges and Constraints</a></li>
-<li class="toctree-l2"><a class="reference internal" href="comparing_distributions.html">Comparing distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generating_data.html">Generating data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="advanced_topics.html">Advanced Topics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="warnings.html">Warnings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="new_distributions.html">Adding New Distributions</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials_top.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/other_libraries.html">Differences with other libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/loading_data.html">Loading data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/visualization.html">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/scaling_range.html">Identifying the scaling range</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/discrete_continuous.html">Continuous and discrete data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/ranges_and_constraints.html">Parameter Ranges and Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/comparing_distributions.html">Comparing distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/generating_data.html">Generating data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/advanced_topics.html">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/warnings.html">Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/new_distributions.html">Adding New Distributions</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -225,12 +225,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html#powerlaw.Lognormal_Positive"><code class="docutils literal notranslate"><span class="pre">Lognormal_Positive</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../derivations_top.html">Derivations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Derivations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../derivations/power_law.html">Power Law Derivations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../derivations/truncated_power_law.html">Truncated Power Law Derivations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../derivations/exponential.html">Exponential Derivations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../derivations/stretched_exponential.html">Stretched Exponential Derivations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../derivations/lognormal.html">Lognormal Derivations</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../derivations_top.html">Derivations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Derivations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="power_law.html">Power Law Derivations</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Truncated Power Law Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exponential.html">Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stretched_exponential.html">Stretched Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lognormal.html">Lognormal Derivations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../development_top.html">Development</a></li>
@@ -254,7 +254,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/tutorials/loading_data.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/derivations/truncated_power_law.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -274,107 +274,99 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="loading-data">
-<h1>Loading data<a class="headerlink" href="#loading-data" title="Link to this heading">¶</a></h1>
-<p>This library is based on analyzing probability distributions, which should
-be given as a collection of values sampled from the distribution. Note that
-this data should not be binned or anything prior to passing to any functions
-or classes.</p>
-<p>Loading data to be used in this package is very straight forward, since you
-only need a numpy array or python list:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">powerlaw</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span><span class="s1">&#39;some_data.csv&#39;</span><span class="p">)</span>
-
-<span class="c1"># Now we can use any powerlaw function or class</span>
-<span class="n">fit</span> <span class="o">=</span> <span class="n">powerlaw</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-</pre></div>
+          <section id="truncated-power-law-derivations">
+<h1>Truncated Power Law Derivations<a class="headerlink" href="#truncated-power-law-derivations" title="Link to this heading">¶</a></h1>
+<p>This page covers the analytics and derivations relevant to the
+exponentially-truncated power law distribution.</p>
+<section id="probability-distribution-function-pdf">
+<h2>Probability distribution function (PDF)<a class="headerlink" href="#probability-distribution-function-pdf" title="Link to this heading">¶</a></h2>
+<p>The PDF for a truncated power law distribution has the form:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[p(x) = C x^{-\alpha} e^{-\lambda x}\]</div>
 </div>
-<p>If you want to explore the functionality provided by <code class="docutils literal notranslate"><span class="pre">powerlaw</span></code> but don’t
-have your own data, you can load any of the test datasets using the
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">load_test_dataset()</span></code> method.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">powerlaw</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">powerlaw</span><span class="o">.</span><span class="n">load_test_dataset</span><span class="p">(</span><span class="s1">&#39;blackouts&#39;</span><span class="p">)</span>
-</pre></div>
+<p>Defined over the domain <span class="math notranslate nohighlight">\([x_{min}, x_{max}]\)</span>, and for <span class="math notranslate nohighlight">\(\alpha \ne 1\)</span>,
+this has normalization constant:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[C = \left[ \int_{x_{min}}^{x_{max}} x^{-\alpha} e^{-\lambda x} dx \right]^{-1}\]</div>
 </div>
-<p>The datasets listed below are available; this information can be obtained
-using <code class="xref py py-meth docutils literal notranslate"><span class="pre">powerlaw.print_test_datasets()</span></code>:</p>
-<div class="table-wrapper colwidths-given docutils container" id="id1">
-<table class="docutils align-default" id="id1">
-<caption><span class="caption-text">Available test datasets</span><a class="headerlink" href="#id1" title="Link to this table">¶</a></caption>
-<colgroup>
-<col style="width: 15.9%" />
-<col style="width: 63.5%" />
-<col style="width: 12.7%" />
-<col style="width: 7.9%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Dataset name</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Type</p></th>
-<th class="head"><p>Source</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>blackouts</p></td>
-<td><p>Number of people (in thousands) in the United States affected by electricity blackouts between 1984 and 2002.</p></td>
-<td><p>Continuous</p></td>
-<td><p>[1]</p></td>
-</tr>
-<tr class="row-odd"><td><p>cities</p></td>
-<td></td>
-<td><p>Continuous</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>fires</p></td>
-<td></td>
-<td><p>Continuous</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>flares</p></td>
-<td></td>
-<td><p>Continuous</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>quakes</p></td>
-<td></td>
-<td><p>Continuous</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>surnames</p></td>
-<td></td>
-<td><p>Continuous</p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p>terrorism</p></td>
-<td></td>
-<td><p>Discrete</p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>words</p></td>
-<td><p>Frequency of word usage in Herman Melville’s novel “Moby Dick”</p></td>
-<td><p>Discrete</p></td>
-<td><p>[1]</p></td>
-</tr>
-</tbody>
-</table>
+<p>This is nearly the definition of the incomplete gamma function, <span class="math notranslate nohighlight">\(\Gamma_s(z)\)</span> (see TODO):</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[= - \lambda^{1 - \alpha} \left[ \Gamma_{1 - \alpha}(\lambda x_{max}) - \Gamma_{1 - \alpha}(\lambda x_{min}) \right]^{-1}\]</div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Most of these test files were copied from <code class="docutils literal notranslate"><span class="pre">plfit</span></code> which were in turn
-copied from <code class="docutils literal notranslate"><span class="pre">agpy</span></code>, so I’m not sure of the original source.</p>
+<p>Unlike the regular power law, there is (in principle) no issue with having <span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span>
+since the normalization will certainly be finite due to the exponential cutoff. That
+being said, in practice there are some difficulties evaluating this gamma
+function (and it’s inverse) for negative values of the parameter <span class="math notranslate nohighlight">\(s\)</span>
+(ie. <span class="math notranslate nohighlight">\(1 - \alpha\)</span>).</p>
+<p>TODO: Check above, since it would be positive for alpha less than 1</p>
+<p>The gamma function goes to zero as its argument goes to infinity, so for
+<span class="math notranslate nohighlight">\(x_{max} \rightarrow \infty\)</span>, we have:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[C = \frac{\lambda^{1 - \alpha}}{\Gamma_{1 - \alpha}(\lambda x_{min})}\]</div>
 </div>
-<figure class="align-default" id="id2">
-<img alt="../_images/test_datasets.png" src="../_images/test_datasets.png" />
-<figcaption>
-<p><span class="caption-text">PDF for all of the test datasets, generated with <code class="xref py py-meth docutils literal notranslate"><span class="pre">powerlaw.plot_test_datasets()</span></code>.</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
-</figcaption>
-</figure>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
-<p>[1] Newman MEJ (2005) Power laws, Pareto distributions and Zipfs law 46</p>
+</section>
+<section id="cumulative-distribution-function-cdf">
+<h2>Cumulative distribution function (CDF)<a class="headerlink" href="#cumulative-distribution-function-cdf" title="Link to this heading">¶</a></h2>
+<p>The CDF for a truncated power law distribution is:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[c(x) = C \int_{x_{min}}^{x} {x'}^{-\alpha} e^{-\lambda x'} dx'\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[= - \frac{C}{\lambda^{1 - \alpha}} \left[ \Gamma_{1 - \alpha}(\lambda x) - \Gamma_{1 - \alpha}(\lambda x_{min}) \right]\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[= \frac{\Gamma_{1 - \alpha}(\lambda x) - \Gamma_{1 - \alpha}(\lambda x_{min}) }{ \Gamma_{1 - \alpha}(\lambda x_{max}) - \Gamma_{1 - \alpha}(\lambda x_{min}) }\]</div>
+</div>
+<p>For a semi-infinite domain (<span class="math notranslate nohighlight">\(x_{max} \rightarrow \infty\)</span>), this simplifies
+to:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[c(x) = 1 - \frac{ \Gamma_{1 - \alpha}(\lambda x) }{ \Gamma_{1 - \alpha}(\lambda x_{min}) }\]</div>
+</div>
+</section>
+<section id="inverse-cdf">
+<h2>Inverse CDF<a class="headerlink" href="#inverse-cdf" title="Link to this heading">¶</a></h2>
+<p>In order to generate random numbers, we use inverse transform sampling,
+which involves inverting the CDF. For an arbitrary value of <span class="math notranslate nohighlight">\(x_{max}\)</span>,
+this is:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[r = \frac{\Gamma_{1 - \alpha}(\lambda c^\dagger(r)) - \Gamma_{1 - \alpha}(\lambda x_{min}) }{ \Gamma_{1 - \alpha}(\lambda x_{max}) - \Gamma_{1 - \alpha}(\lambda x_{min}) }\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[r \left( \Gamma_{1 - \alpha}(\lambda x_{max}) - \Gamma_{1 - \alpha}(\lambda x_{min}) \right) = \Gamma_{1 - \alpha}(\lambda c^\dagger(r)) - \Gamma_{1 - \alpha}(\lambda x_{min})\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[r \Gamma_{1 - \alpha}(\lambda x_{max}) + (1 - r) \Gamma_{1 - \alpha}(\lambda x_{min}) = \Gamma_{1 - \alpha}(\lambda c^\dagger(r))\]</div>
+</div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[c^\dagger(r) = \frac{1}{\lambda} \Gamma_{1 - \alpha}^\dagger \left( r \Gamma_{1 - \alpha}(\lambda x_{max}) + (1 - r) \Gamma_{1 - \alpha}(\lambda x_{min}) \right)\]</div>
+</div>
+<p>For a semi-infinite domain (<span class="math notranslate nohighlight">\(x_{max} \rightarrow \infty\)</span>), this simplifies
+to:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[c^\dagger(r) = \frac{1}{\lambda} \Gamma_{1 - \alpha}^\dagger \left( (1 - r) \Gamma_{1 - \alpha}(\lambda x_{min}) \right)\]</div>
+</div>
+<p>Unfortunately, implementing this function in Python is currently not possible
+since there doesn’t exist an implementation of the inverse incomplete
+gamma function that can handle negative parameter values.</p>
+<p>The two most prominent options would be scipy’s <code class="docutils literal notranslate"><span class="pre">scipy.special.gammainc</span></code> and
+<code class="docutils literal notranslate"><span class="pre">scipy.special.gammaincinv</span></code>, or mpmath’s <code class="docutils literal notranslate"><span class="pre">mpmath.gammainc</span></code>. There is
+discussion of adding support for negative parameters for this gamma function
+in scipy (see <a class="reference external" href="https://github.com/scipy/scipy/issues/21498">here</a>), though we
+would still need the inverse as well.</p>
+<p>TODO: Talk about temporary solution</p>
 </section>
 </section>
 
@@ -383,23 +375,23 @@ copied from <code class="docutils literal notranslate"><span class="pre">agpy</s
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="visualization.html">
+          <a class="next-page" href="exponential.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Visualization</div>
+                <div class="title">Exponential Derivations</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="other_libraries.html">
+          <a class="prev-page" href="power_law.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Differences with other libraries</div>
+                <div class="title">Power Law Derivations</div>
                 
               </div>
             </a>
@@ -433,8 +425,10 @@ copied from <code class="docutils literal notranslate"><span class="pre">agpy</s
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Loading data</a><ul>
-<li><a class="reference internal" href="#references">References</a></li>
+<li><a class="reference internal" href="#">Truncated Power Law Derivations</a><ul>
+<li><a class="reference internal" href="#probability-distribution-function-pdf">Probability distribution function (PDF)</a></li>
+<li><a class="reference internal" href="#cumulative-distribution-function-cdf">Cumulative distribution function (CDF)</a></li>
+<li><a class="reference internal" href="#inverse-cdf">Inverse CDF</a></li>
 </ul>
 </li>
 </ul>
@@ -450,5 +444,6 @@ copied from <code class="docutils literal notranslate"><span class="pre">agpy</s
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="&lt;no title&gt;" href="fit.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Derivations" href="derivations_top.html" /><link rel="prev" title="&lt;no title&gt;" href="fit.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>&lt;no title&gt; - powerlaw 1.6.0 documentation</title>
@@ -225,7 +225,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#powerlaw.Lognormal_Positive"><code class="docutils literal notranslate"><span class="pre">Lognormal_Positive</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="derivations_top.html">Derivations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Derivations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="derivations/power_law.html">Power Law Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivations/truncated_power_law.html">Truncated Power Law Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivations/exponential.html">Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivations/stretched_exponential.html">Stretched Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivations/lognormal.html">Lognormal Derivations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development_top.html">Development</a></li>
 </ul>
 
 </div>
@@ -452,7 +460,8 @@ such that ccdf(x) = 1 - r.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>r</strong><span class="classifier">float in [0, 1]</span></dt><dd><p>A uniform random variable.</p>
+<dt><strong>r</strong><span class="classifier">float in [0, 1)</span></dt><dd><p>A uniform random variable, representing the CDF value for which
+we want to find the corresponding x value.</p>
 </dd>
 </dl>
 </dd>
@@ -789,6 +798,11 @@ to give a reasonable start based on the data.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="powerlaw.Distribution.internally_bounded_rng">
+<span class="sig-name descname"><span class="pre">internally_bounded_rng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#powerlaw.Distribution.internally_bounded_rng" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="powerlaw.Distribution.likelihoods">
@@ -1471,6 +1485,11 @@ Power-law distributions in empirical data. SIAM Review, 51(4),
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="powerlaw.Truncated_Power_Law.internally_bounded_rng">
+<span class="sig-name descname"><span class="pre">internally_bounded_rng</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#powerlaw.Truncated_Power_Law.internally_bounded_rng" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="powerlaw.Truncated_Power_Law.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'truncated_power_law'</span></em><a class="headerlink" href="#powerlaw.Truncated_Power_Law.name" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1542,7 +1561,7 @@ distributions, see Clauset et al. (2009) [1], Table 2.1.</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">loglikelihoods</span></code>([data])</p></td>
 <td><p>The logarithm of the likelihoods of the observed data from the theoretical distribution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pdf</span></code>([data])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#powerlaw.Exponential.pdf" title="powerlaw.Exponential.pdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pdf</span></code></a>([data])</p></td>
 <td><p>The probability density function (normalized histogram) of the theoretical distribution for the values in data within <code class="docutils literal notranslate"><span class="pre">xmin</span></code> and <code class="docutils literal notranslate"><span class="pre">xmax</span></code>, if present.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_ccdf</span></code>([data, ax])</p></td>
@@ -1654,12 +1673,35 @@ as:</p>
 <span class="sig-name descname"><span class="pre">parameter_names</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Lambda']</span></em><a class="headerlink" href="#powerlaw.Exponential.parameter_names" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="powerlaw.Exponential.pdf">
+<span class="sig-name descname"><span class="pre">pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Exponential.pdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Exponential.pdf" title="Link to this definition">¶</a></dt>
+<dd><p>The probability density function (normalized histogram) of the
+theoretical distribution for the values in data within <code class="docutils literal notranslate"><span class="pre">xmin</span></code> and
+<code class="docutils literal notranslate"><span class="pre">xmax</span></code>, if present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">array_like, optional</span></dt><dd><p>The data for which to compute the PDF. If not provided, the data
+passed on creation (if available) will be used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>probabilities</strong><span class="classifier">numpy.ndarray</span></dt><dd><p>The portion of the data that is contained at each bin (data point).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="powerlaw.Stretched_Exponential">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powerlaw.</span></span><span class="sig-name descname"><span class="pre">Stretched_Exponential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'likelihood'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_ranges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete_normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'round'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_Fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Stretched_Exponential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Stretched_Exponential" title="Link to this definition">¶</a></dt>
-<dd><p>A stretched exponential distribution, <span class="math notranslate nohighlight">\(p(x) \sim (x \lambda)^{\beta - 1}
+<dd><p>A stretched exponential distribution, <span class="math notranslate nohighlight">\(p(x) \sim x^{\beta - 1}
 e^{- (\lambda x)^\beta}\)</span>.</p>
 <p>For expressions for normalization for discrete and continuous
 distributions, see Clauset et al. (2009) [1], Table 2.1.</p>
@@ -1908,31 +1950,30 @@ so as to not confuse it with the standard error of other distributions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="powerlaw.Lognormal._cdf_base_function">
 <span class="sig-name descname"><span class="pre">_cdf_base_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Lognormal._cdf_base_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Lognormal._cdf_base_function" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><span class="math notranslate nohighlight">\(c(x) \sim \frac{1}{2} \left( 1 + \erf \left( \frac{\log x - \mu}{\sigma \sqrt{2}} \right) \right)\)</span>
+:math:` = frac{1}{2} erfc left( - frac{log x - mu}{sigma sqrt{2}} right)`</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="powerlaw.Lognormal._generate_random_continuous">
 <span class="sig-name descname"><span class="pre">_generate_random_continuous</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Lognormal._generate_random_continuous"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Lognormal._generate_random_continuous" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>An old implementation of this used mpmath for the calculations
+and mentioned some overflow errors, but I’ve never encountered
+any in all of my testing. But just in case we encounter that in
+the future, we might consider switching back.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="powerlaw.Lognormal._pdf_base_function">
 <span class="sig-name descname"><span class="pre">_pdf_base_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Lognormal._pdf_base_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Lognormal._pdf_base_function" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><span class="math notranslate nohighlight">\(p(x) \sim x^{-1} e^{-(\log(x) - \mu)^2 / 2 \sigma^2}\)</span></p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="powerlaw.Lognormal._pdf_continuous_normalizer">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_pdf_continuous_normalizer</span></span><a class="headerlink" href="#powerlaw.Lognormal._pdf_continuous_normalizer" title="Link to this definition">¶</a></dt>
-<dd><p>The (inverse of the) normalization constant for the PDF
-assuming a continuous distribution. So you can get the normalized
-PDF evaluated for a particular <code class="docutils literal notranslate"><span class="pre">x</span></code> as:</p>
-<blockquote>
-<div><p>_pdf_continuous_normalizer * _pdf_base_function(x)</p>
-</div></blockquote>
-<p>The implementation below simply uses the cumulative distribution
-function to compute this, though if an explicit expression can
-be found by integrating the PDF, this function should be overwritten
-in the child class.</p>
+<dd><p><span class="math notranslate nohighlight">\(C = \sigma \sqrt{\pi / 2} \left( 1 + \erf\left( \frac{\mu - \log x_{min}}{ \sigma \sqrt{2}} \right) \right)\)</span>
+:math:` = sigma sqrt{pi / 2} erfcleft( - frac{mu - log x_{min}}{ sigma sqrt{2}} right)`</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1951,6 +1992,13 @@ specific distribution, so it should be implemented in child classes.</p>
 with the erf function. As implemented, erf(x) quickly approaches 1
 while erfc(x) is more accurate. Since erfc(x) = 1 - erf(x),
 calculations can be written using erfc(x)</p>
+<p>This calculation was originally reformulated to avoid underflow,
+hence why this class redefines the pdf() function. The main
+difference is that this computation (q(upper) - q(lower)) / norm, where
+q is the <strong>unnormalized</strong> _cdf_base_function and norm is the
+normalization constant, instead of C(upper) - C(lower), where C is the
+already normalized function. For comparison, see the regular
+cdf() function when using discrete_normalization=’round’.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1958,8 +2006,15 @@ calculations can be written using erfc(x)</p>
 <span class="sig-name descname"><span class="pre">cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survival</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/powerlaw/distributions.html#Lognormal.cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#powerlaw.Lognormal.cdf" title="Link to this definition">¶</a></dt>
 <dd><p>The cumulative distribution function (CDF) of the lognormal
 distribution. Calculated for the values given in data within xmin and
-xmax, if present. Calculation was reformulated to avoid underflow
-errors</p>
+xmax, if present.</p>
+<p>This function was added to reformulate the calculation to avoid
+underflow errors, though I think this isn’t necessary anymore.
+As best as I can understand it, the issue was likely with some
+problems with erf, meaning that erfc was more accurate. But a better
+solution seems to be just to redefine _cdf_base_function in terms
+of erfc instead of erf, because then we don’t need to redefine this
+method. I’v made that change in v1.6.0 but I will leave this function
+here for now; eventually it should be removed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -2025,6 +2080,26 @@ Power-law distributions in empirical data. SIAM Review, 51(4),
 <dd><p>Returns the probability density function (normalized histogram) of the
 theoretical distribution for the values in data within xmin and xmax,
 if present.</p>
+<p>This function is reimplemented solely to call _round_discrete_approx
+when we want to use that approximation. See that function (or the
+version of cdf defined in this class, which uses the same technique)
+for more information, but the goal of that function is to compute the
+cdf without normalizing until the very end.</p>
+<p>As of now, I can’t see any reason why this would ever lead to an
+underflow error… maybe I’m missing something?</p>
+<p>Here’s a minimal example that leads to the overflow error without
+this function:</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a></p>
+<p>np.random.seed(0)
+dist = powerlaw.Lognormal(xmin=1e1, xmax=1e6, parameters=[1.5, 3], discrete=False)</p>
+<p>data = dist.generate_random(50000)
+powerlaw.plot_pdf(data)
+dist.plot_pdf()</p>
+<p>fit = powerlaw.Fit(data, xmin=1e1, xmax=1e6)</p>
+<p>fit.lognormal.plot_pdf()
+plt.show()</p>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>The fitting will not converge unless you have this overloaded function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -2143,12 +2218,12 @@ which the Distribution object is contained.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="contributing.html">
+          <a class="next-page" href="derivations_top.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Contributing</div>
+                <div class="title">Derivations</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -2210,6 +2285,7 @@ which the Distribution object is contained.</p>
 <li><a class="reference internal" href="#powerlaw.Distribution.initialize_parameter_constraints"><code class="docutils literal notranslate"><span class="pre">Distribution.initialize_parameter_constraints()</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Distribution.initialize_parameter_ranges"><code class="docutils literal notranslate"><span class="pre">Distribution.initialize_parameter_ranges()</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Distribution.initialize_parameters"><code class="docutils literal notranslate"><span class="pre">Distribution.initialize_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#powerlaw.Distribution.internally_bounded_rng"><code class="docutils literal notranslate"><span class="pre">Distribution.internally_bounded_rng</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Distribution.likelihoods"><code class="docutils literal notranslate"><span class="pre">Distribution.likelihoods()</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Distribution.loglikelihoods"><code class="docutils literal notranslate"><span class="pre">Distribution.loglikelihoods()</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Distribution.parameters"><code class="docutils literal notranslate"><span class="pre">Distribution.parameters</span></code></a></li>
@@ -2243,6 +2319,7 @@ which the Distribution object is contained.</p>
 <li><a class="reference internal" href="#powerlaw.Truncated_Power_Law._pdf_continuous_normalizer"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law._pdf_continuous_normalizer</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Truncated_Power_Law._pdf_discrete_normalizer"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law._pdf_discrete_normalizer</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Truncated_Power_Law.generate_initial_parameters"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law.generate_initial_parameters()</span></code></a></li>
+<li><a class="reference internal" href="#powerlaw.Truncated_Power_Law.internally_bounded_rng"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law.internally_bounded_rng</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Truncated_Power_Law.name"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law.name</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Truncated_Power_Law.parameter_names"><code class="docutils literal notranslate"><span class="pre">Truncated_Power_Law.parameter_names</span></code></a></li>
 </ul>
@@ -2257,6 +2334,7 @@ which the Distribution object is contained.</p>
 <li><a class="reference internal" href="#powerlaw.Exponential.generate_initial_parameters"><code class="docutils literal notranslate"><span class="pre">Exponential.generate_initial_parameters()</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Exponential.name"><code class="docutils literal notranslate"><span class="pre">Exponential.name</span></code></a></li>
 <li><a class="reference internal" href="#powerlaw.Exponential.parameter_names"><code class="docutils literal notranslate"><span class="pre">Exponential.parameter_names</span></code></a></li>
+<li><a class="reference internal" href="#powerlaw.Exponential.pdf"><code class="docutils literal notranslate"><span class="pre">Exponential.pdf()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#powerlaw.Stretched_Exponential"><code class="docutils literal notranslate"><span class="pre">Stretched_Exponential</span></code></a><ul>

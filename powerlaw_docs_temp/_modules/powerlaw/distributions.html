@@ -224,7 +224,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../distributions.html#powerlaw.Lognormal_Positive"><code class="docutils literal notranslate"><span class="pre">Lognormal_Positive</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../derivations_top.html">Derivations</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Derivations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../derivations/power_law.html">Power Law Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../derivations/truncated_power_law.html">Truncated Power Law Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../derivations/exponential.html">Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../derivations/stretched_exponential.html">Stretched Exponential Derivations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../derivations/lognormal.html">Lognormal Derivations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development_top.html">Development</a></li>
 </ul>
 
 </div>
@@ -393,6 +401,15 @@
 <span class="sd">        keyword arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+
+    <span class="c1"># This is to indicate whether we should choose bounds based on</span>
+    <span class="c1"># xmax for the random number generation, or if this is handled</span>
+    <span class="c1"># within the _generate_random_continuous function. For most</span>
+    <span class="c1"># cases, if you can derive and implement the inverse CDF following</span>
+    <span class="c1"># the standard procedure, this should stay false. For an example</span>
+    <span class="c1"># of when you need it to be true, see Truncated power laws.</span>
+    <span class="n">internally_bounded_rng</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">xmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -428,9 +445,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
 
         <span class="c1"># If our data is only integer values, but discrete is not true</span>
-        <span class="c1"># or vice versa, give a warning</span>
+        <span class="c1"># or vice versa, give a warning, and cast</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">data</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;discrete=True but data does not exclusively contain integer values. Casting to integer...&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;discrete=False but data exclusively contains integer values. Consider using discrete=True.&#39;</span><span class="p">)</span>
@@ -447,6 +465,7 @@
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">xmin</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="n">xmax</span>
 
         <span class="c1"># If we don&#39;t have a parent fit, we still have to make sure that</span>
@@ -1077,7 +1096,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">noise_flag</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Fitted parameters are very close to the edge of parameter ranges; consider changing these ranges.&#39;</span><span class="p">)</span></div>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fitted parameters are very close to the edge of parameter ranges for distribution </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">; consider changing these ranges.&#39;</span><span class="p">)</span></div>
 
 
 
@@ -1419,7 +1438,7 @@
                     <span class="n">upper_limit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
                 <span class="c1"># Compute the pdf for all possible values, ie. assuming</span>
-                <span class="c1"># we have perfected sampled our distribution.</span>
+                <span class="c1"># we have perfectly sampled our distribution.</span>
                 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="n">upper_limit</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">PDF</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pdf_base_function</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
@@ -1431,7 +1450,10 @@
         <span class="c1"># Set any zeros to very small values</span>
         <span class="n">likelihoods</span><span class="p">[</span><span class="n">likelihoods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">min_10_exp</span>
 
-        <span class="k">return</span> <span class="n">likelihoods</span></div>
+        <span class="c1"># We cast to float64 since the previous type might have been</span>
+        <span class="c1"># float128 (longdouble) and that causes issues with special</span>
+        <span class="c1"># functions like erfc</span>
+        <span class="k">return</span> <span class="n">likelihoods</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div>
 
 
 
@@ -1804,25 +1826,94 @@
 <span class="sd">            Random numbers drawn from the distribution with shape equal</span>
 <span class="sd">            to ``size``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># For generating uniform random numbers from ~0 to ~1</span>
-        <span class="c1"># We shouldn&#39;t actually start from 0, but from _cdf_xmin, which should</span>
-        <span class="c1"># be very close to zero.</span>
-        <span class="c1"># If we have an xmax, we shouldn&#39;t use 1 as the upper bound, but</span>
-        <span class="c1"># cdf(xmax). Note that this only works for when we use the continuous</span>
-        <span class="c1"># method (either continuous data or discrete data but we don&#39;t use</span>
-        <span class="c1"># the approximate discrete method). For the approximated discrete</span>
-        <span class="c1"># case, we have to calculate a different upper limit (see below).</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
-            <span class="n">upper_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1</span>
+        
+        <span class="c1"># For generating random numbers from an arbitrary distribution, we</span>
+        <span class="c1"># use inverse transform sampling, which involves finding the inverse</span>
+        <span class="c1"># of the cumulative distribution function, and then</span>
+        <span class="c1"># evaluating that function for random uniform values in the domain</span>
+        <span class="c1"># of the CDF, ie. [0, 1].</span>
 
         <span class="c1"># For continuous random numbers we usually don&#39;t need to do any</span>
         <span class="c1"># approximations, and can just transform according to the specific</span>
         <span class="c1"># distribution.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span><span class="p">:</span>
-            <span class="n">uniform_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cdf_xmin</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+            <span class="c1"># Note that assuming the full range [0, 1] will give unbounded</span>
+            <span class="c1"># random numbers on the upper side; the distribution functions</span>
+            <span class="c1"># (_generate_random_continuous) are derived assuming an xmin</span>
+            <span class="c1"># value, but no xmax value.</span>
+
+            <span class="c1"># So for the lower bound we can safely use zero when we don&#39;t have</span>
+            <span class="c1"># an xmax value.</span>
+            <span class="n">lower_bound</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># Truncated power laws are weird because we can&#39;t implement</span>
+            <span class="c1"># the proper inverse CDF (see _generate_random_continuous for</span>
+            <span class="c1"># more information) so we just set the bounds the 0 and 1 and</span>
+            <span class="c1"># the rest will be handled by that function.</span>
+            <span class="c1"># Similarly, power laws with alpha &lt; 1 will handle the bounds</span>
+            <span class="c1"># in their method as well, so we define a bool for each</span>
+            <span class="c1"># distribution if it handles the bounds internally or if we</span>
+            <span class="c1"># need to set them externally.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">internally_bounded_rng</span><span class="p">:</span>
+                <span class="c1"># When we have an xmax value, we need to change the upper</span>
+                <span class="c1"># bound. This is because the whole cumulative distribution </span>
+                <span class="c1"># shifts when we have an xmax.</span>
+
+                <span class="c1"># You might be tempted to use the self.cdf() function for that,</span>
+                <span class="c1"># but this function already accounts for xmin and xmax, so it will</span>
+                <span class="c1"># just give you 0 and 1, which we don&#39;t want. What we need is the</span>
+                <span class="c1"># unadjusted cdf value, since the inverse transform sampling</span>
+                <span class="c1"># function is derived without being adjusted for xmax.</span>
+
+                <span class="c1">#upper_bound = self._cdf_base_function(self.xmax)</span>
+
+                <span class="c1"># TODO: There is an issue with lognormal and exponential random</span>
+                <span class="c1"># number generation, possibly because that inverse cdf is derived</span>
+                <span class="c1"># differently than the others, but I don&#39;t understand why. For</span>
+                <span class="c1"># lognormal or exponential generation to have proper bounds, you</span>
+                <span class="c1"># need to somehow change the upper bound to some other value, but</span>
+                <span class="c1"># I have no idea what that value is; it doesn&#39;t seem to be any</span>
+                <span class="c1"># of the obvious combinations of self._cdf_base_function(self.xmin)</span>
+                <span class="c1"># and self._cdf_base_function(self.xmax). As such, we just perform</span>
+                <span class="c1"># a bisect search to find this value for ALL distributions;</span>
+                <span class="c1"># for everything except exponential and lognormal, the value</span>
+                <span class="c1"># of this should be identical to self._cdf_base_function(self.xmax).</span>
+
+                <span class="c1"># Since this bisect search only needs to perform once per</span>
+                <span class="c1"># random generation, this doesn&#39;t increase computation</span>
+                <span class="c1"># that much, so long as you aren&#39;t generate one number at</span>
+                <span class="c1"># a time. But of course we should still try to fix this issue.</span>
+
+                <span class="c1"># We also have to make sure that our xmax isn&#39;t too large;</span>
+                <span class="c1"># if we have defined a huge xmax when our distribution</span>
+                <span class="c1"># goes to (nearly) zero much before it reaches this value,</span>
+                <span class="c1"># we can&#39;t actually perform this search (because of</span>
+                <span class="c1"># numerical precision). In that case, we can just use</span>
+                <span class="c1"># 1 as an upper bound and call it a day :)</span>
+
+                <span class="c1"># 1e-10 is arbitrary</span>
+                <span class="k">if</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-10</span><span class="p">:</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bisect_map</span><span class="p">(</span><span class="n">mn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="mf">1e-10</span><span class="p">,</span>
+                                             <span class="n">function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_random_continuous</span><span class="p">,</span>
+                                             <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+
+                    <span class="c1"># This search might fail for some other mysterious</span>
+                    <span class="c1"># reason, most likely that the xmax is too large but</span>
+                    <span class="c1"># the previous if statement didn&#39;t quite catch it. So</span>
+                    <span class="c1"># we should check if it worked, and if it didn&#39;t, we</span>
+                    <span class="c1"># just use 1.</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">upper_bound</span><span class="p">:</span>
+                        <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1</span>
+    
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Minus some epsilon since the bisect search isn&#39;t perfect</span>
+                        <span class="n">upper_bound</span> <span class="o">*=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-5</span><span class="p">)</span>
+
+            <span class="n">uniform_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
             <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_random_continuous</span><span class="p">(</span><span class="n">uniform_r</span><span class="p">)</span>
 
         <span class="c1"># For discrete distributions, we usually have to make some</span>
@@ -1831,8 +1922,7 @@
             <span class="c1"># Make sure that this distribution supports approximating the</span>
             <span class="c1"># continuous distribution with some discrete scheme.</span>
             <span class="k">if</span> <span class="n">estimate_discrete</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_generate_random_discrete_estimate&#39;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;This distribution does not have an estimation of the discrete form for </span><span class="se">\</span>
-<span class="s2">                                     generating simulated data. Try the exact form with estimate_discrete=False.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;This distribution does not have an estimation of the discrete form for generating simulated data. Try the exact form with estimate_discrete=False.&quot;</span><span class="p">)</span>
 
             <span class="c1"># If no value for estimate discrete is given, we should decide</span>
             <span class="c1"># based on whether the distribution is first able to do this</span>
@@ -1862,16 +1952,23 @@
             <span class="c1"># desired.</span>
             <span class="k">if</span> <span class="n">estimate_discrete</span><span class="p">:</span>
                 <span class="c1"># Note that if we use the approximate discrete method, the</span>
-                <span class="c1"># upper bound is different, since we are using a different</span>
-                <span class="c1"># function than _cdf_base_function.</span>
+                <span class="c1"># upper bound is different from a continuous one, since we</span>
+                <span class="c1"># are using a different function than _generate_random_continuous.</span>
                 <span class="c1"># So we first do a search to find the maximum value, ie.</span>
                 <span class="c1"># the r value such that _generate_random_discrete_estimate(r) = xmax</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
-                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bisect_map</span><span class="p">(</span><span class="n">mn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="c1"># For the upper limit mx here, we can&#39;t use exactly 1</span>
+                    <span class="c1"># since that would lead to infinity for most distributions.</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bisect_map</span><span class="p">(</span><span class="n">mn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="mf">1e-15</span><span class="p">,</span>
                                              <span class="n">function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_random_discrete_estimate</span><span class="p">,</span>
                                              <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="c1"># -1 to make sure we always generate values under xmax</span>
                                              <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
 
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="mi">1</span>
+
+                <span class="c1"># This function takes xmin into account, so we can just</span>
+                <span class="c1"># use 0 as the lower bound.</span>
                 <span class="n">uniform_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
 
                 <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_random_discrete_estimate</span><span class="p">(</span><span class="n">uniform_r</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
@@ -1881,8 +1978,11 @@
                 <span class="c1"># inverse search problem to find the specific value of x</span>
                 <span class="c1"># where the ccdf is equal to that value of r. The x value</span>
                 <span class="c1"># is then the random value we return.</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">upper_bound</span><span class="p">)</span>
-                <span class="n">uniform_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+
+                <span class="c1"># This does the search on the function ccdf which will</span>
+                <span class="c1"># automatically account for xmin and xmax, so we can just</span>
+                <span class="c1"># use plain 0 and 1 for our bounds.</span>
+                <span class="n">uniform_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_double_search_discrete</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="k">for</span> <span class="n">R</span> <span class="ow">in</span> <span class="n">uniform_r</span><span class="o">.</span><span class="n">flatten</span><span class="p">()],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
                 <span class="c1"># Now reshape</span>
@@ -1901,14 +2001,17 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        r : float in [0, 1]</span>
-<span class="sd">            A uniform random variable.</span>
+<span class="sd">        r : float in [0, 1)</span>
+<span class="sd">            A uniform random variable, representing the CDF value for which</span>
+<span class="sd">            we want to find the corresponding x value.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        x : float</span>
 <span class="sd">            The sampled value from the theoretical distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Invalid r value provided to search for: </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s1">&#39;</span>
+
         <span class="c1"># Find a range [x1, x2] that contains our random probability r</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">ccdf</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">x2</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">):</span>
@@ -1921,13 +2024,25 @@
                 <span class="c1"># And end, since we can&#39;t go higher anymore</span>
                 <span class="k">break</span>
 
-        <span class="c1"># Use binary search within that range to find the integer that gives</span>
-        <span class="c1"># a ccdf value closest to the desired r (or rather, 1 - r).</span>
-        <span class="c1"># up to the limit of being between two integers.</span>
+        <span class="c1"># Use bisect search within that range to find the integer that gives</span>
+        <span class="c1"># a cdf value closest to the desired r (or rather, ccdf closest to 1 - r).</span>
+        <span class="c1"># The CCDF is used to avoid numerical errors.</span>
         <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ccdf</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">bisect_map</span><span class="p">(</span><span class="n">mn</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># We use a tolerance of 0.5 since we care about the closest integer</span>
+        <span class="c1"># value (if we use 1.0, we will always get X.5 eg. 10.5, 12.5, which</span>
+        <span class="c1"># doesn&#39;t tell us which integer it actually is, X+1 or X-1).</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">bisect_map</span><span class="p">(</span><span class="n">mn</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">mx</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># DEBUG</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+
+        <span class="c1"># TODO: I would have thought that rounding properly here would give</span>
+        <span class="c1"># more accurate distributions, but, specifically for discrete truncated power</span>
+        <span class="c1"># law distributions, this actually leads to very bad fits. It could</span>
+        <span class="c1"># have something to do with the fact</span>
+        <span class="c1">#return int(np.around(x))</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 </div>
 
 
@@ -2019,6 +2134,25 @@
         <span class="c1"># get very messy around there.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mf">1.1</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Power law distributions with alpha close to 1 without an xmax can be very noisy; it is recommended to give some xmax.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># We also need to indicate that random number generation handles</span>
+        <span class="c1"># the bounds internally (ie. within _generate_random_continuous)</span>
+        <span class="c1"># if alpha &lt; 1 (since otherwise we have issues).</span>
+        <span class="c1"># For alpha greater than 1 but close to it, if we have an xmax</span>
+        <span class="c1"># we should use the bounded form as well since it&#39;s much less</span>
+        <span class="c1"># noisy. eg. for alpha ~ 1.03 or below, the inverse cdf with no</span>
+        <span class="c1"># xmax will give insane numbers (~1e200). It will technically have</span>
+        <span class="c1"># the correct scaling, but the data will be so spread across</span>
+        <span class="c1"># such a wide range that it can affect fitting. If you change this</span>
+        <span class="c1"># 1.1 value, be sure to change it in _generate_random_continuous too.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mf">1.1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internally_bounded_rng</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># If alpha is exactly 1, we can&#39;t handle that. This probably would</span>
+        <span class="c1"># never come up for fitting real data, but just in case, we should</span>
+        <span class="c1"># raise an error.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Power laws with exponent exactly equal to 1 are not supported.&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Power_Law.generate_initial_parameters">
@@ -2162,12 +2296,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Only is calculable after self.fit is started, when the number of data points is</span>
         <span class="c1"># established</span>
+        <span class="c1"># If we try to calculate it before then (ie. when self.n doesn&#39;t</span>
+        <span class="c1"># exist yet) we should return None. This is needed, eg. for</span>
+        <span class="c1"># comparing pickled objects.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Power_Law._cdf_base_function">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Power_Law._cdf_base_function">[docs]</a>
     <span class="k">def</span> <span class="nf">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># For alpha = 1 exactly, the cdf has a logarithmic form instead</span>
+        <span class="c1"># of another power law. Unfortunately, we can&#39;t usually tell if</span>
+        <span class="c1"># something has an exact exponent of 1 without already calling</span>
+        <span class="c1"># this function several times.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">zeta</span>
             <span class="n">CDF</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">zeta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
@@ -2175,7 +2319,13 @@
             <span class="c1">#Can this be reformulated to not reference xmin? Removal of the probability</span>
             <span class="c1">#before xmin and after xmax is handled in Distribution.cdf(), so we don&#39;t</span>
             <span class="c1">#strictly need this element. It doesn&#39;t hurt, for the moment.</span>
+            <span class="c1"># TODO: I believe the answer to this question is no, but should</span>
+            <span class="c1"># confirm. For more info, see the power law cdf derivation; I</span>
+            <span class="c1"># don&#39;t see a way to not include xmin. Some distributions can</span>
+            <span class="c1"># be defined assuming xmin is zero (eg. the exponential or</span>
+            <span class="c1"># lognormal) but I don&#39;t think you can do that for powerlaw.</span>
             <span class="n">CDF</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1">#CDF = x**(-self.alpha + 1) - self.xmin**(-self.alpha + 1)</span>
         <span class="k">return</span> <span class="n">CDF</span></div>
 
 
@@ -2234,6 +2384,13 @@
 <div class="viewcode-block" id="Power_Law._generate_random_continuous">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Power_Law._generate_random_continuous">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="c1"># If we have an xmax, we can use a different expression; this is</span>
+        <span class="c1"># required only for power laws with alpha &lt; 1, otherwise it</span>
+        <span class="c1"># will pretty much be equivalent to the alternative, so we can just</span>
+        <span class="c1"># use that.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mf">1.1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span></div>
 
 
@@ -2345,10 +2502,18 @@
         <span class="c1"># have a tiny _pdf_base_function value.</span>
 
         <span class="c1"># But in order to store this value in the meantime, we have to</span>
-        <span class="c1"># use a float128 type. The ideal solution might be to use a proper</span>
-        <span class="c1"># infinite precision module like mpmath or decimal, but I think</span>
-        <span class="c1"># this should work for all cases.</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
+        <span class="c1"># use a float128 (longdouble) type. The ideal solution might be to use a proper</span>
+        <span class="c1"># infinite precision module like mpmath or decimal, but that comes </span>
+        <span class="c1"># with some computational costs. The other option is to reformulate</span>
+        <span class="c1"># the calculation of the PDF such that we subtract xmin from the</span>
+        <span class="c1"># data before computing the exponentials, which is implemented</span>
+        <span class="c1"># below. Maybe it&#39;s not necessary to use both a reimplementation</span>
+        <span class="c1"># of pdf() and longdouble here, but I don&#39;t think it hurts anything.</span>
+
+        <span class="c1"># Just make sure if you need to use this somewhere outside of the</span>
+        <span class="c1"># class, that you convert it back to a float after multiplying it</span>
+        <span class="c1"># with data since not all numpy/scipy functions support long doubles.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">longdouble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
 
 
     <span class="nd">@property</span>
@@ -2356,53 +2521,76 @@
         <span class="c1"># Note that we use float128 (long double) here since otherwise</span>
         <span class="c1"># we might get an overflow error. See _pdf_continuous_normalizer</span>
         <span class="c1"># for full discussion.</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">longdouble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
-            <span class="n">Cxmax</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">))</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">Cxmax</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">C</span>
+            <span class="n">Cxmax</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">longdouble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">))</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">C</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">Cxmax</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">C</span>
 
         <span class="k">return</span> <span class="n">C</span>
 
 
-    <span class="c1"># This function used to overload the pdf() defined in the super class</span>
-    <span class="c1"># but it doesn&#39;t seem to do anything different...?</span>
-    <span class="c1"># If the if condition evaluates true, then it just calculated the</span>
-    <span class="c1"># likelihood as _pdf_base_function(x) * _pdf_continuous_normalizer,</span>
-    <span class="c1"># which is exactly what the parent pdf() does.</span>
-<span class="c1">#    def pdf(self, data=None):</span>
-<span class="c1">#        if data is None and self.parent_Fit:</span>
-<span class="c1">#            data = self.parent_Fit.data</span>
-<span class="c1">#</span>
-<span class="c1">#        if not self.discrete and self.in_range() and not self.xmax:</span>
-<span class="c1">#            print(&#39;special pdf2&#39;)</span>
-<span class="c1">#            data = trim_to_range(data, xmin=self.xmin, xmax=self.xmax)</span>
-<span class="c1">#            from numpy import exp</span>
-<span class="c1">#        likelihoods = exp(-Lambda*data)*\</span>
-<span class="c1">#                Lambda*exp(Lambda*xmin)</span>
-<span class="c1">#</span>
-<span class="c1">#            # This is _pdf_base_function(x) * _pdf_continuous_normalizer(xmin)</span>
-<span class="c1">#            likelihoods = self.Lambda*exp(self.Lambda*(self.xmin-data))</span>
-<span class="c1">#</span>
-<span class="c1">#            #Simplified so as not to throw a nan from infs being divided by each other</span>
-<span class="c1">#            from sys import float_info</span>
-<span class="c1">#            likelihoods[likelihoods==0] = 10**float_info.min_10_exp</span>
-<span class="c1">#</span>
-<span class="c1">#        else:</span>
-<span class="c1">#            likelihoods = Distribution.pdf(self, data)</span>
-<span class="c1">#</span>
-<span class="c1">#        return likelihoods</span>
-<span class="c1">#</span>
+<div class="viewcode-block" id="Exponential.pdf">
+<a class="viewcode-back" href="../../powerlaw.html#powerlaw.Exponential.pdf">[docs]</a>
+    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># This is reformulated to avoid overflow or underflow errors,</span>
+        <span class="c1"># by doing exp(lambda * (xmin - data)) instead of</span>
+        <span class="c1"># exp(lambda * xmin) / exp(lambda * data)</span>
+        <span class="c1"># This is only relevant for continuous distributions.</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span><span class="p">:</span>
+            <span class="c1"># The passed data takes precedence, but otherwise we use the data</span>
+            <span class="c1"># stored in the class instance.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="c1"># self.data is already trimmed, but if we are passed new data</span>
+            <span class="c1"># we need to trim it.</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">trim_to_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">)</span>
+
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No data points in defined range of the distribution.&#39;</span><span class="p">)</span>
+
+            <span class="c1"># If we aren&#39;t in range, we just return a bunch of (nearly) zeros</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_range</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">min_10_exp</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+            <span class="c1"># This is _pdf_base_function(x) * _pdf_continuous_normalizer(xmin)</span>
+            <span class="c1"># but combined into a single exponential to avoid overflow.</span>
+            <span class="n">likelihoods</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="n">data</span><span class="p">))</span>
+
+            <span class="c1"># Simplified so as not to throw a nan from infs being divided by each other</span>
+            <span class="n">likelihoods</span><span class="p">[</span><span class="n">likelihoods</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">min_10_exp</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise, we just use the super class function, since we</span>
+            <span class="c1"># don&#39;t have to worry about overflows.</span>
+            <span class="n">likelihoods</span> <span class="o">=</span> <span class="n">Distribution</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">likelihoods</span></div>
+
+
+
 <span class="c1">#    def loglikelihoods(self, data=None):</span>
+<span class="c1">#        # Just like the above function, this is reformulated to not have</span>
+<span class="c1">#        # to compute log(exp(...)) to potentially avoid an overflow. That</span>
+<span class="c1">#        # being said, I don&#39;t see why this is needed, since likelihoods()</span>
+<span class="c1">#        # is already overloaded to avoid this, so if the regular value</span>
+<span class="c1">#        # of the likelihood can be stored, certain the logarithm of that</span>
+<span class="c1">#        # value can be as well.</span>
+<span class="c1">#        # TODO: Figure out if this is necessary.</span>
+<span class="c1">#</span>
 <span class="c1">#        if data is None and self.parent_Fit:</span>
 <span class="c1">#            data = self.parent_Fit.data</span>
 <span class="c1">#</span>
 <span class="c1">#        if not self.discrete and self.in_range() and not self.xmax:</span>
 <span class="c1">#            data = trim_to_range(data, xmin=self.xmin, xmax=self.xmax)</span>
 <span class="c1">#            from numpy import log</span>
-<span class="c1">#        likelihoods = exp(-Lambda*data)*\</span>
-<span class="c1">#                Lambda*exp(Lambda*xmin)</span>
+<span class="c1">#        #likelihoods = exp(-Lambda*data)*\</span>
+<span class="c1">#        #        Lambda*exp(Lambda*xmin)</span>
 <span class="c1">#            loglikelihoods = log(self.Lambda) + (self.Lambda*(self.xmin-data))</span>
 <span class="c1">#            #Simplified so as not to throw a nan from infs being divided by each other</span>
 <span class="c1">#            from sys import float_info</span>
@@ -2415,7 +2603,7 @@
 <div class="viewcode-block" id="Exponential._generate_random_continuous">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Exponential._generate_random_continuous">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span></div>
 </div>
 
 
@@ -2424,7 +2612,7 @@
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Stretched_Exponential">[docs]</a>
 <span class="k">class</span> <span class="nc">Stretched_Exponential</span><span class="p">(</span><span class="n">Distribution</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A stretched exponential distribution, :math:`p(x) \sim (x \lambda)^{\beta - 1}</span>
+<span class="sd">    A stretched exponential distribution, :math:`p(x) \sim x^{\beta - 1}</span>
 <span class="sd">    e^{- (\lambda x)^\beta}`.</span>
 
 <span class="sd">    For expressions for normalization for discrete and continuous</span>
@@ -2498,6 +2686,7 @@
     <span class="k">def</span> <span class="nf">_pdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="c1"># TODO: This is different from the base function defined in Clauset</span>
         <span class="c1"># et al. 2009. It has extra factors of lambda and exp(lambda^beta)</span>
+        <span class="c1"># It should be switched to the derived form in the documentation.</span>
         <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">exp</span>
         <span class="k">return</span> <span class="p">(((</span><span class="n">x</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span>
                 <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)))</span></div>
@@ -2508,7 +2697,7 @@
     <span class="k">def</span> <span class="nf">_pdf_continuous_normalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Same issue here as with Exponential; we could get an overflow</span>
         <span class="c1"># error since this value might be very large, so we use float128.</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float128</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">longdouble</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">C</span>
 
 
@@ -2560,11 +2749,7 @@
 <div class="viewcode-block" id="Stretched_Exponential._generate_random_continuous">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Stretched_Exponential._generate_random_continuous">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span>
-<span class="c1">#        return ( (self.xmin**self.beta) -</span>
-<span class="c1">#            (1/self.Lambda) * log(1-r) )**(1/self.beta)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">-</span>
-            <span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span> <span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span></div>
 </div>
 
 
@@ -2588,6 +2773,10 @@
     <span class="n">DEFAULT_PARAMETER_RANGES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
                                 <span class="s1">&#39;Lambda&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">]}</span>
 
+    <span class="c1"># We can&#39;t implement the proper inverse CDF for truncated power laws</span>
+    <span class="c1"># since we don&#39;t have access to a good enough inverse incomplete</span>
+    <span class="c1"># gamma function.</span>
+    <span class="n">internally_bounded_rng</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="Truncated_Power_Law.generate_initial_parameters">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Truncated_Power_Law.generate_initial_parameters">[docs]</a>
@@ -2645,12 +2834,14 @@
 
         <span class="c1"># If we have a discrete distribution (ie only takes on integer</span>
         <span class="c1"># values) we have to shift slightly.</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discrete</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_discrete</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
-            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)))</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># For continuous, we just have the usual expression.</span>
-            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)))</span>
+        <span class="c1"># Update: I think this approximation only applies for a true</span>
+        <span class="c1"># power law, so it is better not to use it here.</span>
+        <span class="c1">#if self.discrete and self.estimate_discrete and not self.xmax:</span>
+        <span class="c1">#    params[&quot;alpha&quot;] = 1 + n / np.sum(np.log(data / (self.xmin - 0.5)))</span>
+        <span class="c1">#</span>
+        <span class="c1">#else:</span>
+        <span class="c1"># For continuous, we just have the usual expression.</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
 
         <span class="n">params</span><span class="p">[</span><span class="s2">&quot;Lambda&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
@@ -2661,6 +2852,9 @@
 <div class="viewcode-block" id="Truncated_Power_Law._cdf_base_function">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Truncated_Power_Law._cdf_base_function">[docs]</a>
     <span class="k">def</span> <span class="nf">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># TODO: Is this the CDF of a truncated power law? It&#39;s not the</span>
+        <span class="c1"># same that I was able to derive using the pdf below (see the</span>
+        <span class="c1"># documentation for that derivation).</span>
         <span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">gammainc</span>
         <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">vectorize</span>
         <span class="n">gammainc</span> <span class="o">=</span> <span class="n">vectorize</span><span class="p">(</span><span class="n">gammainc</span><span class="p">)</span>
@@ -2684,13 +2878,13 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_pdf_continuous_normalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">gammainc</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span>
-                <span class="nb">float</span><span class="p">(</span><span class="n">gammainc</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)))</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">gammainc</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">C</span>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_pdf_discrete_normalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: find/write up a proper derivation for this</span>
         <span class="k">if</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">lerchphi</span>
@@ -2706,6 +2900,9 @@
 
 
     <span class="c1"># Deprecated</span>
+    <span class="c1"># I don&#39;t know why this was overloaded in the first place; no explanation</span>
+    <span class="c1"># is given in the original code, and I can&#39;t see a functional difference</span>
+    <span class="c1"># between this function and the parent class pdf().</span>
 <span class="c1">#    def pdf(self, data=None):</span>
 <span class="c1">#        if data is None and self.parent_Fit:</span>
 <span class="c1">#            data = self.parent_Fit.data</span>
@@ -2714,9 +2911,9 @@
 <span class="c1">#            data = trim_to_range(data, xmin=self.xmin, xmax=self.xmax)</span>
 <span class="c1">#            from numpy import exp</span>
 <span class="c1">#            from mpmath import gammainc</span>
-<span class="c1">#        likelihoods = (data**-alpha)*exp(-Lambda*data)*\</span>
-<span class="c1">#                (Lambda**(1-alpha))/\</span>
-<span class="c1">#                float(gammainc(1-alpha,Lambda*xmin))</span>
+<span class="c1">##        likelihoods = (data**-alpha)*exp(-Lambda*data)*\</span>
+<span class="c1">##                (Lambda**(1-alpha))/\</span>
+<span class="c1">##                float(gammainc(1-alpha,Lambda*xmin))</span>
 <span class="c1">#            likelihoods = ( self.Lambda**(1-self.alpha) /</span>
 <span class="c1">#                    (data**self.alpha *</span>
 <span class="c1">#                            exp(self.Lambda*data) *</span>
@@ -2731,20 +2928,61 @@
 <span class="c1">#        return likelihoods</span>
 
 
+<span class="c1">#    def _generate_random_continuous(self, r):</span>
+<span class="c1">#        &quot;&quot;&quot;</span>
+<span class="c1">#        &quot;&quot;&quot;</span>
+<span class="c1">#        # TODO: Find a way to generate random numbers that doesn&#39;t</span>
+<span class="c1">#        # involve rejection sampling. The main problem is that there</span>
+<span class="c1">#        # doesn&#39;t exist an implementation of the inverse regularized lower</span>
+<span class="c1">#        # gamma function that can handle negative arguments. </span>
+<span class="c1">#        # scipy.special.gammaincinv computes this quantity, but only for</span>
+<span class="c1">#        # positive arguments, see eg.</span>
+<span class="c1">#        # https://github.com/scipy/scipy/issues/21498</span>
+<span class="c1">#</span>
+<span class="c1">#        # Until there is a way to do this, we are stuck with rejection sampling</span>
+<span class="c1">#</span>
+<span class="c1">#        from scipy.special import gammainc, gammaincinv</span>
+<span class="c1">#</span>
+<span class="c1">#        gammaincinv_arg = (1 + r) * gammainc(1 - self.alpha, self.Lambda*self.xmin)</span>
+<span class="c1">#</span>
+<span class="c1">#        return 1/self.Lambda * gammaincinv(1 - self.alpha, gammaincinv_arg)</span>
+
+
 <div class="viewcode-block" id="Truncated_Power_Law._generate_random_continuous">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Truncated_Power_Law._generate_random_continuous">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="c1"># This is a rejection sampling technique, since the proper ITS</span>
+        <span class="c1"># method (skeleton above) can&#39;t be implemented in Python as of</span>
+        <span class="c1"># now.</span>
+        <span class="c1"># We generate random numbers from the exponential distribution</span>
+        <span class="c1"># that is included in the distribution, and then return those</span>
+        <span class="c1"># numbers with probability equal to the PDF of the power law included</span>
+        <span class="c1"># in the distribution evaluated for each exponential sample.</span>
         <span class="k">def</span> <span class="nf">helper</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-            <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span>
-            <span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span>
-            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
-                <span class="n">p</span> <span class="o">=</span> <span class="p">(</span> <span class="n">x</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="p">)</span><span class="o">**-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
-                <span class="k">if</span> <span class="n">rand</span><span class="p">()</span><span class="o">&lt;</span><span class="n">p</span><span class="p">:</span>
+            <span class="c1"># This function doesn&#39;t actually really care about the argument</span>
+            <span class="c1"># r; it is just the first value to try, and upon failure, it</span>
+            <span class="c1"># will just generate an entirely new value.</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># This is the ITS expression for an exponential</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+
+                <span class="c1"># This is the PDF of a power law, evaluated for the point</span>
+                <span class="c1"># we generate from the exponential function</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+
+                <span class="c1"># We can&#39;t deal with bounds easily in this combined method</span>
+                <span class="c1"># so we have to explicitly check for them.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span> <span class="ow">and</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">)):</span>
                     <span class="k">return</span> <span class="n">x</span>
-                <span class="n">r</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span>
-        <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
-        <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">helper</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span></div>
+
+                <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># This allows the function to be called on a scalar as well as an</span>
+        <span class="c1"># iterable</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">helper</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">helper</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span></div>
 </div>
 
 
@@ -2815,6 +3053,36 @@
 <span class="sd">        theoretical distribution for the values in data within xmin and xmax,</span>
 <span class="sd">        if present.</span>
 
+<span class="sd">        This function is reimplemented solely to call _round_discrete_approx</span>
+<span class="sd">        when we want to use that approximation. See that function (or the</span>
+<span class="sd">        version of cdf defined in this class, which uses the same technique)</span>
+<span class="sd">        for more information, but the goal of that function is to compute the</span>
+<span class="sd">        cdf without normalizing until the very end.</span>
+
+<span class="sd">        As of now, I can&#39;t see any reason why this would ever lead to an</span>
+<span class="sd">        underflow error... maybe I&#39;m missing something?</span>
+
+<span class="sd">        Here&#39;s a minimal example that leads to the overflow error without</span>
+<span class="sd">        this function:</span>
+
+<span class="sd">        ```</span>
+
+<span class="sd">        np.random.seed(0)</span>
+<span class="sd">        dist = powerlaw.Lognormal(xmin=1e1, xmax=1e6, parameters=[1.5, 3], discrete=False)</span>
+
+<span class="sd">        data = dist.generate_random(50000)</span>
+<span class="sd">        powerlaw.plot_pdf(data)</span>
+<span class="sd">        dist.plot_pdf()</span>
+
+<span class="sd">        fit = powerlaw.Fit(data, xmin=1e1, xmax=1e6)</span>
+
+<span class="sd">        fit.lognormal.plot_pdf()</span>
+<span class="sd">        plt.show()</span>
+
+<span class="sd">        ```</span>
+
+<span class="sd">        The fitting will not converge unless you have this overloaded function.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : list or array, optional</span>
@@ -2878,6 +3146,14 @@
 <span class="sd">        with the erf function. As implemented, erf(x) quickly approaches 1</span>
 <span class="sd">        while erfc(x) is more accurate. Since erfc(x) = 1 - erf(x),</span>
 <span class="sd">        calculations can be written using erfc(x)</span>
+
+<span class="sd">        This calculation was originally reformulated to avoid underflow,</span>
+<span class="sd">        hence why this class redefines the pdf() function. The main</span>
+<span class="sd">        difference is that this computation (q(upper) - q(lower)) / norm, where</span>
+<span class="sd">        q is the **unnormalized** _cdf_base_function and norm is the</span>
+<span class="sd">        normalization constant, instead of C(upper) - C(lower), where C is the</span>
+<span class="sd">        already normalized function. For comparison, see the regular</span>
+<span class="sd">        cdf() function when using discrete_normalization=&#39;round&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">import</span> <span class="nn">scipy.special</span> <span class="k">as</span> <span class="nn">ss</span>
@@ -2920,8 +3196,16 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The cumulative distribution function (CDF) of the lognormal</span>
 <span class="sd">        distribution. Calculated for the values given in data within xmin and</span>
-<span class="sd">        xmax, if present. Calculation was reformulated to avoid underflow</span>
-<span class="sd">        errors</span>
+<span class="sd">        xmax, if present.</span>
+
+<span class="sd">        This function was added to reformulate the calculation to avoid</span>
+<span class="sd">        underflow errors, though I think this isn&#39;t necessary anymore.</span>
+<span class="sd">        As best as I can understand it, the issue was likely with some</span>
+<span class="sd">        problems with erf, meaning that erfc was more accurate. But a better</span>
+<span class="sd">        solution seems to be just to redefine _cdf_base_function in terms</span>
+<span class="sd">        of erfc instead of erf, because then we don&#39;t need to redefine this</span>
+<span class="sd">        method. I&#39;v made that change in v1.6.0 but I will leave this function</span>
+<span class="sd">        here for now; eventually it should be removed.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -2939,23 +3223,54 @@
 <span class="sd">        probabilities : array</span>
 <span class="sd">            The portion of the data that is less than or equal to X.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqrt</span>
         <span class="kn">import</span> <span class="nn">scipy.special</span> <span class="k">as</span> <span class="nn">ss</span>
-        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_Fit</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_Fit</span><span class="o">.</span><span class="n">data</span>
 
+        <span class="c1"># The passed data takes precedence, but otherwise we use the data</span>
+        <span class="c1"># stored in the class instance.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="c1"># self.data is already trimmed, but if we are passed new data</span>
+        <span class="c1"># we need to trim it.</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">trim_to_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">)</span>
+
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">float_info</span>
+
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No data points in defined range of the distribution.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># If we aren&#39;t in range, we just return a bunch of (nearly) zeros</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_range</span><span class="p">():</span>
-            <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">tile</span>
-            <span class="k">return</span> <span class="n">tile</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">float_info</span><span class="o">.</span><span class="n">min_10_exp</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">min_10_exp</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
-        <span class="n">val_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-        <span class="n">val_xmin</span> <span class="o">=</span> <span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-        <span class="n">CDF</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">val_xmin</span><span class="p">)</span> <span class="o">-</span> <span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">val_data</span><span class="p">))</span>
+        <span class="c1">#if self._cdf_xmin == 1:</span>
+        <span class="c1">#    # If cdf_xmin is 1, it means we don&#39;t have the numerical accuracy to</span>
+        <span class="c1">#    # calculate this tail. So we make everything 1, indicating</span>
+        <span class="c1">#    # we&#39;re at the end of the tail. Such an xmin should be thrown</span>
+        <span class="c1">#    # out by the KS test.</span>
+        <span class="c1">#    CDF = np.ones(n)</span>
+        <span class="c1">#    return CDF</span>
 
-        <span class="n">norm</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">val_xmin</span><span class="p">)</span>
+        <span class="c1"># Compared to the regular cdf function which uses _cdf_base_function,</span>
+        <span class="c1"># the difference here is that we evaluate 0.5*erfc(-arg) instead of</span>
+        <span class="c1"># 1 - 0.5*erfc(arg)</span>
+
+        <span class="c1"># This is the negative of the argument for the erfc for the data</span>
+        <span class="n">val_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+
+        <span class="c1"># This is the negative of the argument for the erfc in _cdf_xmin</span>
+        <span class="n">val_xmin</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+
+        <span class="c1"># This is (1 - q(xmin)) - (1 - q(x)) = q(x) - q(xmin)</span>
+        <span class="c1"># where q is the unnormalized CDF, ie. _cdf_base_function</span>
+        <span class="c1"># TODO: There was an issue here with val_xmin and val_data being</span>
+        <span class="c1"># longdouble types, so to be safe, we case here. I should try to</span>
+        <span class="c1"># figure out where this is coming from.</span>
+        <span class="n">CDF</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">val_xmin</span><span class="p">))</span> <span class="o">-</span> <span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">val_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)))</span>
+
+        <span class="c1"># This is 1 - q(xmin) (because the argument is negative)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">erfc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">val_xmin</span><span class="p">))</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">:</span>
             <span class="c1"># TO DO: Improve this line further for better numerical accuracy?</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmax</span><span class="p">))</span>
@@ -2978,9 +3293,18 @@
         <span class="k">return</span> <span class="n">CDF</span></div>
 
 
+
 <div class="viewcode-block" id="Lognormal._cdf_base_function">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Lognormal._cdf_base_function">[docs]</a>
     <span class="k">def</span> <span class="nf">_cdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :math:`c(x) \sim \frac{1}{2} \left( 1 + \erf \left( \frac{\log x - \mu}{\sigma \sqrt{2}} \right) \right)`</span>
+<span class="sd">        :math:` = \frac{1}{2} \erfc \left( - \frac{\log x - \mu}{\sigma \sqrt{2}} \right)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#from scipy.special import erfc</span>
+        <span class="c1">#from mpmath import erfc</span>
+        <span class="c1">#return np.float64(0.5 * erfc(-(np.log(x) - self.mu) / (self.width * np.sqrt(2))))</span>
+
         <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">log</span>
         <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erf</span>
         <span class="k">return</span>  <span class="mf">0.5</span> <span class="o">+</span> <span class="p">(</span> <span class="mf">0.5</span> <span class="o">*</span>
@@ -2991,6 +3315,10 @@
 <div class="viewcode-block" id="Lognormal._pdf_base_function">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Lognormal._pdf_base_function">[docs]</a>
     <span class="k">def</span> <span class="nf">_pdf_base_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :math:`p(x) \sim x^{-1} e^{-(\log(x) - \mu)^2 / 2 \sigma^2}`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#return 1/x * np.exp(-(np.log(x) - self.mu)**2 / (2 * self.width**2))</span>
         <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">log</span>
         <span class="k">return</span> <span class="p">((</span><span class="mf">1.0</span><span class="o">/</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span>
                 <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span> <span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span></div>
@@ -2999,6 +3327,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_pdf_continuous_normalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :math:`C = \sigma \sqrt{\pi / 2} \left( 1 + \erf\left( \frac{\mu - \log x_{min}}{ \sigma \sqrt{2}} \right) \right)`</span>
+<span class="sd">        :math:` = \sigma \sqrt{\pi / 2} \erfc\left( - \frac{\mu - \log x_{min}}{ \sigma \sqrt{2}} \right)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#from scipy.special import erfc</span>
+        <span class="c1">#from mpmath import erfc</span>
+        <span class="c1">#return np.float64(self.width * np.sqrt(np.pi/2) * erfc(-(self.mu - np.log(self.xmin)) / (self.width*np.sqrt(2))))</span>
+
         <span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">erfc</span>
 <span class="c1">#        from scipy.special import erfc</span>
         <span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">pi</span>
@@ -3016,40 +3352,26 @@
 <div class="viewcode-block" id="Lognormal._generate_random_continuous">
 <a class="viewcode-back" href="../../powerlaw.html#powerlaw.Lognormal._generate_random_continuous">[docs]</a>
     <span class="k">def</span> <span class="nf">_generate_random_continuous</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">frompyfunc</span>
-        <span class="kn">from</span> <span class="nn">mpmath</span> <span class="kn">import</span> <span class="n">erf</span><span class="p">,</span> <span class="n">erfinv</span>
-        <span class="c1">#This is a long, complicated function broken into parts.</span>
-        <span class="c1">#We use mpmath to maintain numerical accuracy as we run through</span>
-        <span class="c1">#erf and erfinv, until we get to more sane numbers. Thanks to</span>
-        <span class="c1">#Wolfram Alpha for producing the appropriate inverse of the CCDF</span>
-        <span class="c1">#for me, which is what we need to calculate these things.</span>
-        <span class="n">erfinv</span> <span class="o">=</span> <span class="n">frompyfunc</span><span class="p">(</span><span class="n">erfinv</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">Q</span> <span class="o">=</span> <span class="n">erf</span><span class="p">(</span> <span class="p">(</span> <span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
-        <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="o">*</span><span class="n">r</span> <span class="o">-</span> <span class="n">r</span> <span class="o">+</span> <span class="mf">1.0</span>
-        <span class="n">Q</span> <span class="o">=</span> <span class="n">erfinv</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="o">*</span><span class="n">Q</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An old implementation of this used mpmath for the calculations</span>
+<span class="sd">        and mentioned some overflow errors, but I&#39;ve never encountered</span>
+<span class="sd">        any in all of my testing. But just in case we encounter that in</span>
+<span class="sd">        the future, we might consider switching back.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erf</span><span class="p">,</span> <span class="n">erfinv</span>
+
+        <span class="c1"># To switch back to mpmath, uncomment these two lines</span>
+        <span class="c1">#from mpmath import erf, erfinv</span>
+        <span class="c1">#erfinv = np.frompyfunc(erfinv,1,1)</span>
+
+        <span class="n">erfinv_arg</span> <span class="o">=</span> <span class="n">erf</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span>
+
+        <span class="c1"># To switch back to mpath, use this line instead</span>
+        <span class="c1">#return np.exp(self.mu - np.sqrt(2) * self.width * erfinv(erfinv_arg).astype(&#39;float&#39;)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">erfinv</span><span class="p">(</span><span class="n">erfinv_arg</span><span class="p">))</span></div>
 </div>
 
-
-<span class="c1">#    def _generate_random_continuous(self, r1, r2=None):</span>
-<span class="c1">#        from numpy import log, sqrt, exp, sin, cos</span>
-<span class="c1">#        from scipy.constants import pi</span>
-<span class="c1">#        if r2==None:</span>
-<span class="c1">#            from numpy.random import rand</span>
-<span class="c1">#            r2 = rand(len(r1))</span>
-<span class="c1">#            r2_provided = False</span>
-<span class="c1">#        else:</span>
-<span class="c1">#            r2_provided = True</span>
-<span class="c1">#</span>
-<span class="c1">#        rho = sqrt(-2.0 * self.width**2.0 * log(1-r1))</span>
-<span class="c1">#        theta = 2.0 * pi * r2</span>
-<span class="c1">#        x1 = exp(rho * sin(theta))</span>
-<span class="c1">#        x2 = exp(rho * cos(theta))</span>
-<span class="c1">#</span>
-<span class="c1">#        if r2_provided:</span>
-<span class="c1">#            return x1, x2</span>
-<span class="c1">#        else:</span>
-<span class="c1">#            return x1</span>
 
 
 <div class="viewcode-block" id="Lognormal_Positive">
